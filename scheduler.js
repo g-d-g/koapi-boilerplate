@@ -1,4 +1,3 @@
-#!/usr/bin/env node --harmony
 var CronJob = require('cron').CronJob;
 var glob    = require('glob');
 var schedulers = './build/schedulers/**/*.js';

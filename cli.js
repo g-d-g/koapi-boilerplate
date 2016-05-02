@@ -1,4 +1,3 @@
-#!/usr/bin/env node --harmony
 var program = require('commander');
 var glob    = require('glob');
 var commands = './build/commands/**/*.js';

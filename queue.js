@@ -1,4 +1,3 @@
-#!/usr/bin/env node --harmony
 var Queue   = require('bull');
 var glob    = require('glob');
 var queues  = './build/queues/*';
@@ -45,7 +44,7 @@ if(cluster.isMaster){
     queue.default.process(queue.worker);
     queue.default.on('ready', function(){
       console.log( 'Queue %s ready for jobs, PID:%s',
-      queue.name,
+      queue.default.name,
       cluster.worker.process.pid );
     });
   });
