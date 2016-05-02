@@ -17,7 +17,4 @@ module.exports = {
     port: 6379,
     password: null,
   },
-  queue:{
-    ui: { port: 4003 }
-  }
 };
