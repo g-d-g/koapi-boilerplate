@@ -17,6 +17,7 @@
     "build": "babel -d build/ src/",
     "cli": "node --harmony cli.js",
     "queue": "node --harmony queue.js",
+    "queue:ui": "node --harmony queue.js -u",
     "scheduler": "node --harmony scheduler.js",
     "babel": "babel-node",
     "knex": "knex",
