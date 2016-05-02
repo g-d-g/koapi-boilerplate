@@ -13,7 +13,7 @@ program.option('-u --ui', 'UI')
        .option('-p --port <n>', 'Port')
        .parse(process.argv);
 
-if (program.ui && program.port) {
+if (program.ui) {
   var matador = require('bull-ui/app')({
     redis: {
       host: config.redis.host,
@@ -22,7 +22,7 @@ if (program.ui && program.port) {
     }
   });
 
-  matador.listen(program.port, function(){
+  matador.listen(program.port || 4003, function(){
     console.log('Bull-UI started listening on port', this.address().port);
   });
 } else {
