@@ -5,6 +5,8 @@ var Model   = require('koapi').Model;
 var config  = require('./config');
 var _       = require('lodash');
 
+require('babel-polyfill');
+
 Model.init(config.knex);
 
 if (process.env != 'production'){
