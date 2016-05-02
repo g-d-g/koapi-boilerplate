@@ -1,4 +1,4 @@
-import command from '../commands/example';
+import command from '../commands/example'
 import Mailer from '../queues/mailer'
 
 export default {
