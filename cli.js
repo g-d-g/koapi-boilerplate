@@ -10,12 +10,12 @@ Model.init(config.knex);
 
 if (process.env != 'production'){
   require('babel-register');
+  require('babel-polyfill');
   commands = './src/commands/**/*.es';
 }
 
 glob.sync(commands).forEach(function (file, index) {
-  function done(err) {
-    if(err) console.error(err);
+  function done() {
     Model.bookshelf.knex.destroy();
   }
   var cmd= require(file).default;

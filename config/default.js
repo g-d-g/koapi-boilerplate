@@ -12,4 +12,12 @@ module.exports = {
   },
   cors: true,
   knex: require('../knexfile')[process.env.NODE_ENV || 'development'],
+  redis: {
+    host: '172.17.0.6',
+    port: 6379,
+    password: null,
+  },
+  queue:{
+    ui: { port: 4003 }
+  }
 };
