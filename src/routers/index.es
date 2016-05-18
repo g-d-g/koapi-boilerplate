@@ -1,4 +1,6 @@
-import {Router} from 'koapi';
+import {Router} from 'koapi'
+import _ from 'lodash'
+import require_all from 'require-all'
 
 const index = new Router();
 
@@ -35,5 +37,7 @@ const index = new Router();
   index.post('/', async (ctx) => {
     ctx.body = ctx.request.body;
   });
+
+index.index = 1;
 
 export default index;

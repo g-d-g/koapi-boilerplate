@@ -10,7 +10,9 @@ module.exports = {
       options: {}
     }
   },
-  cors: true,
+  cors: {
+    expose:['Content-Range']
+  },
   knex: require('../knexfile')[process.env.NODE_ENV || 'development'],
   redis: {
     host: '172.17.0.6',
