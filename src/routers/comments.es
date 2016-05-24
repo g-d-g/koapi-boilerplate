@@ -7,9 +7,9 @@ import Posts from './posts';
 const comments = new ResourceRouter;
 
   comments.use(async (ctx, next)=>{
-    ctx.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
+    ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
     await next()
   });
-  comments.resource(ctx => ctx.post.comments(), {root:''});
+  comments.resource(ctx => ctx.state.post.comments(), {root:''});
 
 export default Posts.use('/posts/:post_id/comments', comments.routes());
