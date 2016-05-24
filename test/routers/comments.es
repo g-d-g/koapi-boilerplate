@@ -1,7 +1,7 @@
 import request from 'supertest';
 import {server} from '../../src/app';
 
-describe('GET /comments', function(){
+describe('GET /posts/1/comments/1', function(){
   it('res should be json', function(done){
     request(server)
       .get('/posts/1/comments/1')

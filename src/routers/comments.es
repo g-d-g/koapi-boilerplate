@@ -1,19 +1,15 @@
-import {Router} from 'koapi';
+import {ResourceRouter} from 'koapi';
 import Comment from '../models/comment';
+import Post from '../models/post';
 import Posts from './posts';
 
-const comments = new Router();
+// export default Posts.use('/posts/:post_id', (new ResourceRouter).resource(Comment.collection()).routes());
+const comments = new ResourceRouter;
 
-  comments.get('/comments', async (ctx) =>{
-    ctx.body = await Comment.fetchAll();
+  comments.use(async (ctx, next)=>{
+    ctx.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
+    await next()
   });
+  comments.resource(ctx => ctx.post.comments(), {root:''});
 
-  comments.get('/comments/:id', async (ctx) =>{
-    ctx.body = await Comment.where('id', '=', ctx.params.id).fetch();
-  });
-
-  comments.post('/comments', async (ctx) => {
-    ctx.body = ctx.request.body;
-  });
-
-export default Posts.use('/posts/:post_id', comments.routes());
+export default Posts.use('/posts/:post_id/comments', comments.routes());
