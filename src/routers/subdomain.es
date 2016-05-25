@@ -7,7 +7,4 @@ const router = new Router();
     ctx.body = 'api';
   });
 
-const dispatch = subdomain('api.*', router.routes());
-dispatch.index = 0;
-
-export default dispatch;
+export default subdomain('api.*', router.routes());

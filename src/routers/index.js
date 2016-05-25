@@ -1,12 +1,21 @@
-import _require from 'require-all'
-import _ from 'lodash'
+import {ResourceRouter} from 'koapi';
+import Post from '../models/post';
+import Comment from '../models/comment';
+import index from './default'
+import subdomain from './subdomain'
 
-var all = _require({
-  dirname: __dirname,
-  filter :  /(.+)\.es$/
+const posts = (new ResourceRouter).resource(Post.collection());
+
+const comments = new ResourceRouter;
+comments.use(async (ctx, next)=>{
+  ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
+  await next()
 });
+comments.resource(ctx => ctx.state.post.comments(), {root:''});
 
-let routers = _.values(all).map(router => router.default);
-routers = _.sortBy(routers, router => router.index);
-
-export default routers;
+export default [
+  subdomain,
+  index,
+  posts,
+  posts.use('/posts/:post_id/comments', comments.routes()),
+]
