@@ -1,6 +1,4 @@
-export default {
-  before: [
+export const before = [
     async (ctx, next) => { await next(); }
-  ],
-  after: []
-};
+];
+export const after = [];

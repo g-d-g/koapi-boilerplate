@@ -1,18 +1,12 @@
 var path = require('path');
 module.exports = {
   port: 3000,
-  debug: {
-    request: {
-      logger:{
-        name: 'debug',
-        streams:[{path:path.resolve('./storage/logs/debug.log')}],
-      },
-      options: {}
-    }
-  },
+  debug: true,
   cors: {
     expose:['Content-Range']
   },
+  accesslog:{ path: __dirname + '/../storage/logs/access.log' },
+  errorlog:{ path: __dirname + '/../storage/logs/error.log' },
   knex: require('../knexfile')[process.env.NODE_ENV || 'development'],
   redis: {
     host: '172.17.0.6',
