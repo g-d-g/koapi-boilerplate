@@ -13,16 +13,7 @@ const app  = new Koapi();
 var server = app.run(Object.assign({
   middlewares: require('./middlewares').default,
   routers: require('./routers').default,
-  error: [{ path: storage('/logs/error.log') }],
-  accesslog: {
-    options:{
-      name: 'access',
-      streams: [ {path:storage('/logs/access.log')} ]
-    }
-  },
-  serve: {
-    root: storage('/public'),
-  }
+  serve: { root: storage('/public') }
 }, config));
 
 export default app;
