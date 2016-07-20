@@ -9,7 +9,7 @@ require('babel-polyfill');
 
 Model.init(config.knex);
 
-if (process.env != 'production'){
+if (process.env.NODE_ENV != 'production'){
   require('babel-register');
   schedulers = './src/schedulers/**/*.es';
 }

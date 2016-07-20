@@ -3,6 +3,7 @@ import config from '../config'
 import _ from 'lodash'
 import path from 'path'
 import fs from 'fs-extra'
+
 import {storage} from './lib/helper'
 
 // init knex and bookshelf
