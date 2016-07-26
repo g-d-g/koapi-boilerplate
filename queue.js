@@ -26,7 +26,7 @@ if (program.ui) {
     console.log('Bull-UI started listening on port', this.address().port);
   });
 } else {
-  Model.init(config.knex);
+  Model.init(config.database);
   if (process.env != 'production'){
     require('babel-register');
     queues = './src/queues/*';

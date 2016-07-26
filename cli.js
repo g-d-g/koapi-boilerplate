@@ -7,7 +7,7 @@ var _       = require('lodash');
 
 require('babel-polyfill');
 
-Model.init(config.knex);
+Model.init(config.database);
 
 if (process.env != 'production'){
   require('babel-register');

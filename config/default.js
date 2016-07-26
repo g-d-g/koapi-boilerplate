@@ -7,7 +7,22 @@ module.exports = {
   },
   accesslog:{ path: __dirname + '/../storage/logs/access.log' },
   errorlog:{ path: __dirname + '/../storage/logs/error.log' },
-  knex: require('../knexfile')[process.env.NODE_ENV || 'development'],
+  database : {
+    client: 'mysql',
+    connection: {
+      host     : 'ubuntu',
+      user     : 'root',
+      password : '123456',
+      database : 'blog',
+      charset  : 'utf8'
+    },
+    migrations: {
+      directory: './database/migrations',
+    },
+    seeds:{
+      directory: './database/seeds',
+    },
+  },
   redis: {
     host: '172.17.0.6',
     port: 6379,

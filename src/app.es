@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import {storage} from './lib/helper'
 
 // init knex and bookshelf
-Model.init(config.knex);
+Model.init(config.database);
 
 const app  = new Koapi();
 
