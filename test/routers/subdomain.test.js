@@ -1,12 +1,13 @@
-import request from 'supertest-as-promised';
 import {server} from '../../src/app';
-import {describe} from 'ava-spec'
+import {expect, request, test} from '../lib/helper'
 
-describe('GET /', it => {
-  it('res should be json', t => request(server)
-      .get('/')
-      .set('Host', 'api.koapi.com')
-      .set('Accept', 'application/json')
-      .expect(res => res.text.should.be.equal('api'))
-      .expect(200))
-})
+test('GET http://api.koapi.com/', t =>
+  request(server)
+  .get('/')
+  .set('Host', 'api.koapi.com')
+  .set('Accept', 'application/json')
+  .then(res => {
+    expect(res).to.have.status(200)
+    expect(res.text).to.equal('api');
+  })
+);
