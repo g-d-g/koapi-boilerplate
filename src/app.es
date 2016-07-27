@@ -12,7 +12,7 @@ Model.init(config.database);
 const app  = new Koapi();
 
 var server = app.run(Object.assign({
-  middlewares: require('./middlewares').default,
+  middlewares: require('./middlewares'),
   routers: require('./routers').default,
   serve: { root: storage('/public') }
 }, config));
