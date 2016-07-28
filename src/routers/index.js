@@ -2,7 +2,7 @@ import {ResourceRouter} from 'koapi';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import index from './default'
-import oauth from './oauth'
+import auth from './auth'
 import subdomain from './subdomain'
 
 const posts = (new ResourceRouter(Post.collection())).crud();
@@ -18,6 +18,6 @@ export default [
   subdomain,
   index,
   posts,
-  oauth,
+  auth,
   posts.use('/posts/:post_id/comments', comments.routes()),
 ]

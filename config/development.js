@@ -1,12 +1,13 @@
 module.exports = {
   port: 5000,
   database : {
-    client: 'mysql',
+    debug:true,
+    client: 'pg',
     connection: {
       host     : 'ubuntu',
-      user     : 'root',
-      password : '123456',
-      database : 'blog',
+      user     : 'postgres',
+      password : '1234',
+      database : 'koapi',
       charset  : 'utf8'
     },
   },
