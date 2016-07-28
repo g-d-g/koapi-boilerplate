@@ -15,8 +15,8 @@ module.exports = {
         callbackURL: "http://ubuntu:5000/auth/github/callback"
       },
       admaster: {
-        api: 'http://dev.open.admaster.co',
         strategy: 'oauth2',
+        profileURL: 'http://dev.open.admaster.co/user',
         authorizationURL: 'http://dev.open.admaster.co/#/auth/authorize',
         tokenURL: 'http://dev.open.admaster.co/api/oauth/access_token',
         clientID: 'f189f2f0acb906410f73',

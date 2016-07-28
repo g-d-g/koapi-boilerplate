@@ -1,13 +1,13 @@
 module.exports = {
   port: null,
   debug: false,
-  database: {
-    client: 'mysql',
+  database : {
+    client: 'pg',
     connection: {
       host     : 'ubuntu',
-      user     : 'root',
-      password : '123456',
-      database : 'blog_test',
+      user     : 'postgres',
+      password : '1234',
+      database : 'boileplate_test',
       charset  : 'utf8'
     },
   },

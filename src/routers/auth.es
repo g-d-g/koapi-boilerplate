@@ -17,17 +17,12 @@ const oauth = new Router();
     let provider = config.oauth.providers[ctx.params.provider].strategy || ctx.params.provider;
     await authenticate(provider, { session:false }).call(this, ctx, next);
   }, async (ctx) => {
-    let state = {};
-    try {
-      state = JSON.parse((new Buffer(ctx.query.state, 'base64').toString()));
-    } catch (e) { }
-    if (state.redirect) {
-      ctx.redirect(state.redirect + '?access_token='+ ctx.passport.authInfo['access_token']);
-    }
+    let state = ctx.query.state ? JSON.parse((new Buffer(ctx.query.state, 'base64').toString())) : {};
+    let redirect_url = (state.redirect || '/protected') + '?access_token='+ ctx.passport.authInfo['access_token']
+    ctx.redirect(redirect_url);
     ctx.body = 'redirecting...';
   });
   oauth.get('/protected', authenticate('bearer'), async(ctx)=>{
-    console.log(ctx.passport.user);
     ctx.body = ctx.state.user;
   });
 

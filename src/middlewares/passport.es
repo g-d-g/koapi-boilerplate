@@ -11,7 +11,7 @@ import axios from 'axios'
 const admaster_verify = async (access_token, refresh_token, params, profile, done) => {
   let auth_info = {access_token, refresh_token, profile, params};
   try {
-    profile = await axios.get(config.oauth.providers.admaster.api + '/user?access_token=' + access_token).then(res => res.data);
+    profile = await axios.get(config.oauth.providers.admaster.profileURL + '?access_token=' + access_token).then(res => res.data);
     let openid = await OpenID.forge().where({openid:profile.uuid}).fetch({withRelated:['user']});
     let user;
     if (!openid) {

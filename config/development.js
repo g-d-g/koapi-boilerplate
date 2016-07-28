@@ -1,7 +1,6 @@
 module.exports = {
   port: 5000,
   database : {
-    debug:true,
     client: 'pg',
     connection: {
       host     : 'ubuntu',
