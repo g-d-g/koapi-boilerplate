@@ -1,17 +1,17 @@
 import {Model} from 'koapi'
 import passport from 'koa-passport'
-import config from '../../config'
+import config from '../../../config'
 import OAuth2Strategy from 'passport-oauth2'
 import BearerStrategy from 'passport-http-bearer'
-import OpenID from '../models/user_openid'
-import User from '../models/user'
+import OpenID from '../../models/user_openid'
+import User from '../../models/user'
 import moment from 'moment'
 import axios from 'axios'
 
-const admaster_verify = async (access_token, refresh_token, params, profile, done) => {
+const oauth2_verify = async (access_token, refresh_token, params, profile, done) => {
   let auth_info = {access_token, refresh_token, profile, params};
   try {
-    profile = await axios.get(config.oauth.providers.admaster.profileURL + '?access_token=' + access_token).then(res => res.data);
+    profile = await axios.get(config.oauth.providers.oauth2.profileURL + '?access_token=' + access_token).then(res => res.data);
     let openid = await OpenID.forge().where({openid:profile.uuid}).fetch({withRelated:['user']});
     let user;
     if (!openid) {
@@ -50,7 +50,7 @@ const admaster_verify = async (access_token, refresh_token, params, profile, don
 };
 
 
-passport.use(new OAuth2Strategy(config.oauth.providers.admaster, admaster_verify));
+passport.use(new OAuth2Strategy(config.oauth.providers.oauth2, oauth2_verify));
 
 passport.use(new BearerStrategy(
   async (access_token, done) => {
