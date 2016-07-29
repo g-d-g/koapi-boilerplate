@@ -1,35 +1,35 @@
 exports.up = function(knex, Promise) {
   return knex.schema
-            //  .createTable('oauth_clients', function (table) {
-            //    table.string('client_id').primary();
-            //    table.string('client_secret');
-            //    table.string('redirect_uri');
-            //    table.string('grant_types');
-            //    table.string('scope');
-            //    table.string('user_id');
-            //  })
-            //  .createTable('oauth_authorization_codes', function (table) {
-            //    table.string('code').primary();
-            //    table.string('client_id');
-            //    table.string('user_id');
-            //    table.string('redirect_uri');
-            //    table.string('scope');
-            //    table.timestamp('expires');
-            //  })
-            //  .createTable('oauth_access_tokens', function (table) {
-            //    table.string('access_token').primary();
-            //    table.string('client_id');
-            //    table.string('user_id');
-            //    table.string('scope');
-            //    table.timestamp('expires');
-            //  })
-            //  .createTable('oauth_refresh_tokens', function (table) {
-            //    table.string('refresh_token').primary();
-            //    table.string('client_id');
-            //    table.string('user_id');
-            //    table.string('scope');
-            //    table.timestamp('expires');
-            //  })
+             .createTable('oauth_clients', function (table) {
+               table.string('client_id').primary();
+               table.string('client_secret');
+               table.string('redirect_uri');
+               table.string('grant_types');
+               table.string('scope');
+               table.string('user_id');
+               table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+               table.timestamp('updated_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+             })
+             .createTable('oauth_authorization_codes', function (table) {
+               table.string('code').primary();
+               table.string('client_id');
+               table.string('user_id');
+               table.string('redirect_uri');
+               table.string('scope');
+               table.timestamp('expires_at');
+               table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+               table.timestamp('updated_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+             })
+             .createTable('oauth_tokens', function (table) {
+               table.string('token').primary();
+               table.enum('type', ['access', 'refresh']);
+               table.string('client_id');
+               table.string('user_id');
+               table.string('scope');
+               table.timestamp('expires_at');
+               table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+               table.timestamp('updated_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+             })
              .createTable('users', function (table) {
                table.increments('id').primary();
                table.string('name').unique();
@@ -84,6 +84,9 @@ exports.down = function(knex, Promise) {
              .dropTable('roles')
              .dropTable('user2role')
              .dropTable('user_openids')
+             .dropTable('oauth_clients')
+             .dropTable('oauth_authorization_codes')
+             .dropTable('oauth_tokens')
              .dropTable('posts')
              .dropTable('comments');
 };

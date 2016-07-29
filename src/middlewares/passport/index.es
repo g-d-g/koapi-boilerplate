@@ -1,48 +1,30 @@
 import {Model} from 'koapi'
 import passport from 'koa-passport'
 import config from '../../../config'
-import OAuth2Strategy from 'passport-oauth2'
+import GithubStrategy from 'passport-github'
+import {BasicStrategy} from 'passport-http'
 import BearerStrategy from 'passport-http-bearer'
+import ClientPasswordStrategy from 'passport-oauth2-client-password'
 import OpenID from '../../models/user_openid'
+import Client from '../../models/oauth/client'
 import User from '../../models/user'
 import moment from 'moment'
 import axios from 'axios'
 
-const verify = async (access_token, refresh_token, params, profile, done) => {
+const github_verify = async (access_token, refresh_token, params, profile, done) => {
   let auth_info = {access_token, refresh_token, profile, params};
   try {
-    profile = await axios.get(config.oauth.providers.admaster.profileURL + '?access_token=' + access_token).then(res => res.data);
-    let openid = await OpenID.forge().where({openid:profile.uuid}).fetch({withRelated:['user']});
-    let user;
+    let openid = await OpenID.forge().where({openid:profile.id}).fetch({withRelated:['user']});
     if (!openid) {
-      user = new User();
-      await Model.bookshelf.transaction(t => {
-        return user.save({
-          name:profile.username,
-          password: 'default',
-          email: profile.email
-        }, {
-          transacting: t
-        }).tap( model => {
-          return model.openids().create({
-            openid: profile.uuid,
-            access_token,
-            refresh_token,
-            provider: 'admaster',
-            expires_at: moment().add(2, 'hours').toDate(),
-            profile
-          }, { transacting: t })
-        }).then(t.commit).catch(t.rollback);
-      });
-    } else {
-      await openid.save({
-        access_token,
-        refresh_token,
-        expires_at: moment().add(2, 'hours').toDate(),
-        profile
-      }, {patch:true});
-      user = openid.related('user');
+      return done(null, {}, auth_info);
     }
+    await openid.save({
+      access_token,
+      refresh_token,
+      expires_at: moment().add(2, 'hours').toDate(),
+      profile
+    }, {patch:true});
+    let user = openid.related('user');
     return done(null, user, auth_info);
   } catch (e) {
     return done(e, false, auth_info);
@@ -50,14 +32,38 @@ const verify = async (access_token, refresh_token, params, profile, done) => {
 };
 
 
-passport.use(new OAuth2Strategy(config.oauth.providers.oauth2, verify));
+passport.use(new GithubStrategy(config.oauth.providers.github, github_verify));
+
+passport.use(new BasicStrategy(
+  async function(username, password, done) {
+    try {
+      let user = User.auth(username, password);
+      done(null, user);
+    } catch (e) {
+      done(e, false);
+    }
+  }
+));
+
+passport.use(new ClientPasswordStrategy(
+  async function(client_id, client_secret, done) {
+    try {
+      let client = await Client.where({client_id, client_secret}).fetch({require:true})
+      done(null, client);
+    } catch (e) {
+      done(e, false);
+    }
+  }
+));
+
 
 passport.use(new BearerStrategy(
   async (access_token, done) => {
+    let openid;
     try {
       // 如苦token尚未过期，则认证通过
-      let openid = await OpenID.forge().where({access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user']});
-      return done(null, openid ? openid.related('user') : false, {scope: 'all'});
+      // let openid = await OpenID.forge().where({access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user']});
+      return done(null, openid ? openid.related('user') : {}, {scope: 'all'});
     } catch (e) {
       return done(e, false);
     }
