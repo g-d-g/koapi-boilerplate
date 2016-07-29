@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
 
     // Inserts seed entries
     knex('oauth_clients').insert({client_id:'123', client_secret: '123', user_id:1, redirect_uri:'http://ubuntu:5000', grant_types:'password', scope:'all'}),
-    knex('users').insert({id:1, name:'garbin', password:'202cb962ac59075b964b07152d234b70', email:"garbinh@gmail.com"}),
+    knex('users').insert({username:'test', password:'202cb962ac59075b964b07152d234b70', email:"test@gmail.com"}),
     knex('posts').insert({id: 1, title: 'Post Title', contents:'Post Contents', user_id:1}),
     knex('comments').insert({id: 1, title: 'Comment Title', contents:'Comment Contents', user_id:1, post_id:1})
   );

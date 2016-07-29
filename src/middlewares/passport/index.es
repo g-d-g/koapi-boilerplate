@@ -15,16 +15,36 @@ const github_verify = async (access_token, refresh_token, params, profile, done)
   let auth_info = {access_token, refresh_token, profile, params};
   try {
     let openid = await OpenID.forge().where({openid:profile.id}).fetch({withRelated:['user']});
+    let user;
     if (!openid) {
-      return done(null, {}, auth_info);
+      user = new User();
+      await Model.bookshelf.transaction(t => {
+        return user.save({
+          username:profile.username,
+          password: 'default',
+          email: 'garbinh@gmail.com'
+        }, {
+          transacting: t
+        }).tap( model => {
+          return model.openids().create({
+            openid: profile.id,
+            access_token,
+            refresh_token,
+            provider: profile.provider,
+            expires_at: moment().add(2, 'hours').toDate(),
+            profile
+          }, { transacting: t })
+        }).then(t.commit).catch(t.rollback);
+      });
+    } else {
+      await openid.save({
+        access_token,
+        refresh_token,
+        expires_at: moment().add(2, 'hours').toDate(),
+        profile
+      }, {patch:true});
+      user = openid.related('user');
     }
-    await openid.save({
-      access_token,
-      refresh_token,
-      expires_at: moment().add(2, 'hours').toDate(),
-      profile
-    }, {patch:true});
-    let user = openid.related('user');
     return done(null, user, auth_info);
   } catch (e) {
     return done(e, false, auth_info);

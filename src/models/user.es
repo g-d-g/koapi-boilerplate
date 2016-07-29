@@ -7,7 +7,7 @@ import md5 from 'blueimp-md5'
 
 export const fields = Object.assign({
   id: Joi.number().integer(),
-  name: Joi.string(),
+  username: Joi.string(),
   password: Joi.string(),
   email: Joi.string().email(),
 }, timestamps());
@@ -17,7 +17,7 @@ export default Model.extend({
   hasTimestamps: true,
   schema: {
     create: Joi.object().keys(Object.assign({}, fields, {
-      name: fields.name.required(),
+      username: fields.username.required(),
       password: fields.password.required(),
       email: fields.email.required(),
     })),
@@ -31,7 +31,7 @@ export default Model.extend({
   }
 }, {
   async auth(ident, password){
-    let user = await this.query(q => q.where({name:ident}).orWhere({email:ident}))
+    let user = await this.query(q => q.where({username:ident}).orWhere({email:ident}))
                .fetch({require:true});
     if (user && user.get('password') == md5(password)) {
       return user;

@@ -32,7 +32,7 @@ exports.up = function(knex, Promise) {
              })
              .createTable('users', function (table) {
                table.increments('id').primary();
-               table.string('name').unique();
+               table.string('username').unique();
                table.string('password');
                table.string('email').unique();
                table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
