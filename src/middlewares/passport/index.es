@@ -8,8 +8,10 @@ import ClientPasswordStrategy from 'passport-oauth2-client-password'
 import OpenID from '../../models/user_openid'
 import Client from '../../models/oauth/client'
 import User from '../../models/user'
+import Token from '../../models/oauth/token'
 import moment from 'moment'
 import axios from 'axios'
+import create_error from 'http-errors'
 
 const github_verify = async (access_token, refresh_token, params, profile, done) => {
   let auth_info = {access_token, refresh_token, profile, params};
@@ -57,10 +59,10 @@ passport.use(new GithubStrategy(config.oauth.providers.github, github_verify));
 passport.use(new BasicStrategy(
   async function(username, password, done) {
     try {
-      let user = User.auth(username, password);
+      let user = await User.auth(username, password);
       done(null, user);
     } catch (e) {
-      done(e, false);
+      done(create_error(401, e), false);
     }
   }
 ));
@@ -71,24 +73,35 @@ passport.use(new ClientPasswordStrategy(
       let client = await Client.where({client_id, client_secret}).fetch({require:true})
       done(null, client);
     } catch (e) {
-      done(e, false);
+      done(creaate_error(401, e), false);
     }
   }
 ));
-
 
 passport.use(new BearerStrategy(
   async (access_token, done) => {
-    let openid;
     try {
       // 如苦token尚未过期，则认证通过
-      // let openid = await OpenID.forge().where({access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user']});
-      return done(null, openid ? openid.related('user') : {}, {scope: 'all'});
+      let token = await Token.where({token:access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user'], require:true});
+      return done(null, token ? token.related('user') : {}, {scope: 'all'});
     } catch (e) {
-      return done(e, false);
+      return done(create_error(401, e), false);
     }
   }
 ));
+
+// for non-oauth-server
+// passport.use(new BearerStrategy(
+//   async (access_token, done) => {
+//     try {
+//       // 如苦token尚未过期，则认证通过
+//       let openid = await OpenID.where({access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user']});
+//       return done(null, openid ? openid.related('user') : {}, {scope: 'all'});
+//     } catch (e) {
+//       return done(e, false);
+//     }
+//   }
+// ));
 
 export default passport;
 

@@ -2,6 +2,7 @@ import oauth2orize from 'oauth2orize-koa'
 import Client from '../models/oauth/client'
 import User from '../models/user'
 import Token from '../models/oauth/token'
+import create_error from 'http-errors'
 
 const server = oauth2orize.createServer();
 
@@ -15,7 +16,7 @@ server.exchange(oauth2orize.exchange.password(async (client, username, password,
       expires: 7200
     }];
   } catch (e) {
-    throw e;
+    throw create_error(401, e);
   }
 }));
 
@@ -27,7 +28,7 @@ server.exchange(oauth2orize.exchange.refreshToken(async (client, refreshToken, s
       expires: 7200
     }];
   } catch (e) {
-    throw e;
+    throw create_error(401, e);
   }
 }));
 

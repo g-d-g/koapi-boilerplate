@@ -109,6 +109,7 @@
     "gulp": "^3.9.1",
     "gulp-apidoc": "^0.2.4",
     "istanbul": "^1.0.0-alpha",
+    "nock": "^8.0.0",
     "nodemon": "^1.9.2",
     "nyc": "^6.4.4"
   }

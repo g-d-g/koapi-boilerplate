@@ -4,6 +4,7 @@ import {timestamps} from '../../lib/helper'
 import moment from 'moment'
 import md5 from 'blueimp-md5'
 import uuid from 'node-uuid'
+import User from '../user'
 
 export const fields = Object.assign({
   token: Joi.string(),
@@ -28,6 +29,9 @@ export default Model.extend({
       expires_at: fields.expires_at.required(),
     })),
     update: Joi.object().keys(fields)
+  },
+  user(){
+    return this.belongsTo(User);
   }
 }, {
   async issue(client_id, user_id){
