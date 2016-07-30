@@ -5,6 +5,7 @@ import index from './default'
 import auth from './auth'
 import oauth from './oauth'
 import subdomain from './subdomain'
+import clients from './clients'
 
 const posts = (new ResourceRouter(Post.collection())).crud();
 
@@ -21,5 +22,6 @@ export default [
   posts,
   auth,
   oauth,
+  clients,
   posts.use('/posts/:post_id/comments', comments.routes()),
 ]
