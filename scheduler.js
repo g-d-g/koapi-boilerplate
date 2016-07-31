@@ -1,3 +1,4 @@
+require('babel-polyfill');
 var CronJob = require('cron').CronJob;
 var glob    = require('glob');
 var schedulers = './build/schedulers/**/*.js';
@@ -5,7 +6,6 @@ var Model   = require('koapi').Model;
 var config  = require('./config');
 var _       = require('lodash');
 
-require('babel-polyfill');
 
 Model.init(config.database);
 

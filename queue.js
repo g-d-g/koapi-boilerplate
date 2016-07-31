@@ -1,3 +1,4 @@
+require('babel-polyfill');
 var Queue   = require('bull');
 var glob    = require('glob');
 var queues  = './build/queues/*';
@@ -7,7 +8,6 @@ var _       = require('lodash');
 var program = require('commander');
 var cluster = require('cluster');
 
-require('babel-polyfill');
 
 program.option('-u --ui', 'UI')
        .option('-p --port <n>', 'Port')

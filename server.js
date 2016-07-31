@@ -1,6 +1,6 @@
+require('babel-polyfill');
 var app = './build/app.js';
 
-require('babel-polyfill');
 
 if (process.env != 'production'){
   require('babel-register');

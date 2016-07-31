@@ -1,3 +1,4 @@
+require('babel-polyfill');
 var program = require('commander');
 var glob    = require('glob');
 var commands = './build/commands/**/*.js';
@@ -5,7 +6,6 @@ var Model   = require('koapi').Model;
 var config  = require('config');
 var _       = require('lodash');
 
-require('babel-polyfill');
 
 Model.init(config.database);
 
