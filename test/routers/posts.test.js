@@ -1,5 +1,5 @@
 import {server} from '../../src/app';
-import {suite} from 'koapi/lib/test'
+import suite from 'koapi/lib/test'
 
 suite(({ResourceTester, expect}) => {
   let tester = new ResourceTester(server, '/posts');

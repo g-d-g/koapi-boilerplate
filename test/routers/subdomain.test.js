@@ -1,5 +1,5 @@
 import {server} from '../../src/app';
-import {suite, test, request, expect} from 'koapi/lib/test'
+import {test, request, expect} from 'koapi/lib/test'
 
 test('GET http://api.koapi.com/', t =>
   request(server)
