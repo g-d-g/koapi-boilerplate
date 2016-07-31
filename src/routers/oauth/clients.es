@@ -8,7 +8,7 @@ const router = new ResourceRouter(Client.collection(), {
   id: 'client_id'
 });
 
-  router.use(authenticate('bearer'));
+  // router.use(authenticate('bearer'));
   router.use(user.grant('admin.oauth'));
   router.crud();
 

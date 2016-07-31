@@ -1,6 +1,10 @@
+import {authenticate} from './passport'
+import compose from 'koa-compose'
+
 export default {
   grant(permission) {
-    return async (ctx, next)=>{
+    return compose([authenticate('bearer'), async (ctx, next)=>{
+      // load role
       await ctx.state.user.load('roles');
       let result = ctx.state.user.related('roles').find(role => {
         // super role
@@ -13,6 +17,6 @@ export default {
         return ctx.throw('Access Denied - You don\'t have permission to: ' + permission, 403);
       }
       await next();
-    }
+    }]);
   }
 }
