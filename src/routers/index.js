@@ -5,7 +5,7 @@ import index from './default'
 import auth from './auth'
 import oauth from './oauth'
 import subdomain from './subdomain'
-import clients from './clients'
+import clients from './oauth/clients'
 
 const posts = (new ResourceRouter(Post.collection())).crud();
 

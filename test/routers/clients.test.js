@@ -1,8 +1,9 @@
 import {server} from '../../src/app'
 import {suite} from 'koapi/lib/test'
 
-suite(({ResourceTester}) => {
+suite(({ResourceTester, request, expect, test}) => {
   let tester = new ResourceTester(server, '/oauth/clients');
+  let token = req => req.set('Authorization', 'Bearer 691ae08f7b038e5b09983d2435d3a878');
 
   // POST
   tester.create({
@@ -12,9 +13,11 @@ suite(({ResourceTester}) => {
     grant_types: 'aaa',
     scope: 'aaa',
     user_id: '111',
-  }).test();
+  }, token).test();
+
 
   // GET
-  tester.read().test();
-  tester.read('123').test();
+  tester.read().catch(e => expect(e).to.have.status(401)).test();
+  tester.read(token).test();
+  tester.read('123', token).test();
 });

@@ -3,7 +3,7 @@ import Comment from './comment';
 import Joi from 'joi';
 
 export const fields = {
-  title: Joi.string().alphanum().min(3).max(30),
+  title: Joi.string().min(3).max(30),
 };
 
 export default Model.extend({
