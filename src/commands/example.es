@@ -5,7 +5,15 @@ import {Model} from 'koapi'
 export default {
   command: 'example [test]',
   description: 'Example',
-  action: async (cmd, test, options) => {
-    console.log(await Post.fetchAll());
+  options:{
+    '-h, --haha [mode]': 'Haha'
+  },
+  action: async (test, options) => {
+    // test will be [test]
+    // options can access options
+    console.log(test, options.haha || '(not set)', await Post.fetchAll());
+  },
+  done: async()=>{
+    console.log('done');
   }
 };

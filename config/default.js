@@ -42,7 +42,7 @@ module.exports = {
     },
   },
   redis: {
-    host: '172.17.0.6',
+    host: '172.17.0.66',
     port: 6379,
     password: null,
   },

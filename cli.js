@@ -1,37 +1,59 @@
 require('babel-polyfill');
 var program = require('commander');
 var glob    = require('glob');
-var commands = './build/commands/**/*.js';
 var Model   = require('koapi').Model;
 var config  = require('config');
 var _       = require('lodash');
+var production = process.env.NODE_ENV == 'production';
 
+!production && require('babel-register');
 
 Model.init(config.database);
 
-if (process.env != 'production'){
-  require('babel-register');
-  commands = './src/commands/**/*.es';
+var commands = require(production ? './build/commands' : './src/commands');
+
+function done() {
+  Model.bookshelf.knex.destroy();
 }
 
-glob.sync(commands).forEach(function (file, index) {
-  function done() {
-    Model.bookshelf.knex.destroy();
-  }
-  var cmd= require(file).default;
-  if (cmd.command) {
-    program.command(cmd.command);
-  }
-  _.keys(cmd.options).forEach(function (k) {
-    program.option(k, cmd.options[k]);
+function error(e) {
+  done();
+  console.error(e);
+}
+
+
+// program.command(commands.Bullui.command)
+//   .description(commands.Bullui.description)
+//   .action(function(){
+//     var result = commands.Bullui.action.apply(commands.Bullui.action, Array.prototype.slice.call(arguments));
+//     if (result instanceof Promise) {
+//       result.then(commands.Bullui.done || function(){Promise.resolve()})
+//          .then(done)
+//          .catch(error);
+//     }
+//   });
+
+_.forIn(commands, function (cmd, name) {
+  var subcommand = program.command(cmd.command);
+  if (cmd.description) subcommand.description(cmd.description);
+  cmd.options && _.forIn(cmd.options, function (desc, option) {
+    subcommand = subcommand.option(option, desc);
   });
-  if (cmd.description) program.description(cmd.description);
-  if (cmd.action) program.action(function(){
-    cmd.action.apply(cmd.action,
-                     Array.prototype.slice.call(arguments))
-                     .then(done)
-                     .catch(done);
+  if (cmd.action) subcommand.action(function(){
+    var result = cmd.action.apply(cmd.action, Array.prototype.slice.call(arguments));
+    if (result instanceof Promise) {
+      result.then(cmd.done || function(){Promise.resolve()}).then(done).catch(error);
+    }
   });
 });
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+  done();
+}
+program.command('*')
+  .action(function(env){
+    console.log('"%s"', env);
+  });
 
 program.parse(process.argv);
