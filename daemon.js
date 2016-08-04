@@ -1,6 +1,7 @@
 require('babel-polyfill');
 var production = process.env.NODE_ENV == 'production';
     !production && require('babel-register');
+    require('koapi').Model.init(require('./config').database)
 var cluster    = require('throng');
 var daemons = require(production ? './build/daemons' : './src/daemons').default;
 var program = require('commander');
@@ -8,7 +9,6 @@ var program = require('commander');
            .option('-x, --cluster', 'cluster mode')
            .parse(process.argv);
 
-require('koapi').Model.init(require('./config').database)
 
 function run(daemons) {
   return function (pid) {
