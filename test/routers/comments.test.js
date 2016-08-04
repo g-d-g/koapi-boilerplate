@@ -1,4 +1,4 @@
-import {server} from '../../src/app'
+import server from '../../server'
 import {request, expect, test} from 'koapi/lib/test'
 
 test('GET /posts/1/comments/1', t =>
