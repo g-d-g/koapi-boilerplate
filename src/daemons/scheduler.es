@@ -1,4 +1,5 @@
 import schedule from 'node-schedule'
+import schedulers from './schedulers'
 
 const log = require('../lib/helper').logger('daemon');
 
@@ -31,19 +32,19 @@ export const context = {
 
 export default {
   start(id){
-    let schedulers = require('./schedulers'); for (var name in schedulers) {
-      let scheduler = init(schedulers[name]);
+    schedulers.forEach(scheduler => {
+      scheduler = init(scheduler);
       if (scheduler.do) {
         let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
           scheduler.do().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler));
         }, function () {
-          scheduler.done().catch(console.error);
+          scheduler.done().catch(log.error);
         });
         log.info('%s started, schedule: %s', scheduler.name, scheduler.schedule);
         // job.start();
         context.jobs.push(job);
       }
-    }
+    });
   },
 
   stop(id){

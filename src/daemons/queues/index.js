@@ -1,1 +1,5 @@
-export * as Mailer from './mailer'
+import mailer from './mailer'
+
+export default [
+  mailer
+]

@@ -1,5 +1,5 @@
 import schedule from 'node-schedule'
-import queue from '../queues/mailer'
+import {queue} from '../queues/mailer'
 const log = require('../../lib/helper').logger('daemon');
 
 const jobs = {};

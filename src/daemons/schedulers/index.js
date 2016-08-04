@@ -1,1 +1,5 @@
-export Example from './example'
+import example from './example'
+
+export default [
+  example,
+]
