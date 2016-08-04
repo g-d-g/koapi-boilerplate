@@ -1,5 +1,6 @@
 import schedule from 'node-schedule'
 import queue from '../queues/mailer'
+const log = require('../../lib/helper').logger('daemon');
 
 const jobs = {};
 
@@ -12,13 +13,13 @@ export default {
       let job = schedule.scheduleJob('*/3 * * * * *', async () => {
         try {
           queue.add({hello:'world!'});
-          console.log('msg send');
+          log.info('msg send');
         } catch (e) {
-          console.log(e);
+          log.error(e);
         }
       });
       jobs[1] = job;
     }
-    console.log('ran into scheduler example');
+    log.info('ran into scheduler example');
   }
 };

@@ -1,14 +1,16 @@
 import schedule from 'node-schedule'
 
+const log = require('../lib/helper').logger('daemon');
+
 function done(scheduler) {
   context.done++;
-  console.log('%s done: %s', scheduler.name, context.done);
+  log.info('%s done: %s', scheduler.name, context.done);
 }
 
 function error(scheduler, e) {
   context.error++;
-  console.error(e);
-  console.error('%s error: %s', scheduler.name, context.error);
+  log.error(e);
+  log.error('%s error: %s', scheduler.name, context.error);
 }
 function init(scheduler) {
   var empty = async () => {};
@@ -37,7 +39,7 @@ export default {
         }, function () {
           scheduler.done().catch(console.error);
         });
-        console.log('%s started, schedule: %s', scheduler.name, scheduler.schedule);
+        log.info('%s started, schedule: %s', scheduler.name, scheduler.schedule);
         // job.start();
         context.jobs.push(job);
       }
@@ -45,6 +47,6 @@ export default {
   },
 
   stop(id){
-    console.log('scheduler down');
+    log.info('scheduler down');
   }
 }
