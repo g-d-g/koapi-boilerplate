@@ -14,7 +14,7 @@ export default {
     // test will be [test]
     // options can access options
     // console.log(test, options.haha || '(not set)', await Post.fetchAll());
-    log.info('haha');
+    log.info('haha', await Post.fetchAll());
   },
   done: async()=>{
     log.info('done');

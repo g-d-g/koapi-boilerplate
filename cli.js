@@ -14,25 +14,13 @@ Model.init(config.database);
 var commands = require(production ? './build/commands' : './src/commands');
 
 function done() {
-  Model.bookshelf.knex.destroy();
+  process.exit();
 }
 
 function error(e) {
-  done();
   console.error(e);
+  done();
 }
-
-
-// program.command(commands.Bullui.command)
-//   .description(commands.Bullui.description)
-//   .action(function(){
-//     var result = commands.Bullui.action.apply(commands.Bullui.action, Array.prototype.slice.call(arguments));
-//     if (result instanceof Promise) {
-//       result.then(commands.Bullui.done || function(){Promise.resolve()})
-//          .then(done)
-//          .catch(error);
-//     }
-//   });
 
 _.forIn(commands, function (cmd, name) {
   var subcommand = program.command(cmd.command);
