@@ -12,6 +12,7 @@ export default {
       let job = schedule.scheduleJob('*/3 * * * * *', async () => {
         try {
           queue.add({hello:'world!'});
+          console.log('msg send');
         } catch (e) {
           console.log(e);
         }

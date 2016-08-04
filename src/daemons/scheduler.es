@@ -1,11 +1,4 @@
-require('babel-polyfill');
 import schedule from 'node-schedule'
-
-const context = {
-  jobs: [],
-  done: 0,
-  error: 0
-};
 
 function done(scheduler) {
   context.done++;
@@ -28,17 +21,30 @@ function init(scheduler) {
   };
 }
 
-let schedulers = require('./schedulers');
-for (var name in schedulers) {
-  let scheduler = init(schedulers[name]);
-  if (scheduler.do) {
-    let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
-      scheduler.do().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler));
-    }, function () {
-      scheduler.done().catch(console.error);
-    });
-    console.log('%s started, schedule: %s', scheduler.name, scheduler.schedule);
-    // job.start();
-    context.jobs.push(job);
+export const context = {
+  jobs: [],
+  done: 0,
+  error: 0
+};
+
+export default {
+  start(id){
+    let schedulers = require('./schedulers'); for (var name in schedulers) {
+      let scheduler = init(schedulers[name]);
+      if (scheduler.do) {
+        let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
+          scheduler.do().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler));
+        }, function () {
+          scheduler.done().catch(console.error);
+        });
+        console.log('%s started, schedule: %s', scheduler.name, scheduler.schedule);
+        // job.start();
+        context.jobs.push(job);
+      }
+    }
+  },
+
+  stop(id){
+    console.log('scheduler down');
   }
 }
