@@ -8,7 +8,7 @@ export async function worker(job) {
   log.info('msg received %s, serverd by %s', JSON.stringify(job.data), process.pid);
 }
 
-export default function () {
+export default async function () {
   queue.process(worker);
   queue.on('ready', ()=>{
     log.info( 'Queue %s ready for jobs, PID: %s', queue.name, process.pid);

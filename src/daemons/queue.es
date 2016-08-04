@@ -3,7 +3,7 @@ const log = require('../lib/helper').logger('daemon');
 
 export default {
   start(id){
-    queues.forEach(function (queue) { queue() });
+    queues.forEach(function (queue) { queue().catch(log.error) });
   },
 
   stop(id){
