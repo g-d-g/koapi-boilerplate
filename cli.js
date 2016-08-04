@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 require('babel-polyfill');
 var program = require('commander');
 var glob    = require('glob');

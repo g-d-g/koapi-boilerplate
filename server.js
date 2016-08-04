@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 require('babel-polyfill');
 var production = process.env.NODE_ENV == 'production';
     production && require('babel-register');

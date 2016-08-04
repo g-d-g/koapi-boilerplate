@@ -1,16 +1,13 @@
+#!/usr/bin/env node
+
 require('babel-polyfill');
 var production = process.env.NODE_ENV == 'production';
     !production && require('babel-register');
     require('koapi').Model.init(require('./config').database)
 var cluster    = require('throng');
-var daemons = require(production ? './build/daemons' : './src/daemons').default;
 var program = require('commander');
-    program.version('1.0.0')
-           .option('-x, --cluster', 'cluster mode')
-           .parse(process.argv);
 
-
-function run(daemons) {
+function run_daemon(daemons) {
   return function (pid) {
     daemons.forEach(function (daemon) {
       daemon.start(pid);
@@ -19,12 +16,35 @@ function run(daemons) {
   }
 }
 
-if (program.cluster) {
-  cluster({
-    master: run(daemons.master),
-    start: run(daemons.worker)
+function run_command(daemons) {
+  var master = run_daemon(daemons.master);
+  var worker = run_daemon(daemons.worker);
+  if (program.cluster) {
+    cluster({ master, start: worker });
+  } else {
+    master();
+    worker();
+  }
+}
+
+program.version('1.0.0')
+       .option('-n, --daemon [value]', 'daemon name which should be started')
+       .option('-x, --cluster', 'cluster mode');
+
+program.parse(process.argv);
+
+if (program.daemon) {
+  var daemon = require(production ?
+                       './build/daemons/' + program.daemon :
+                       './src/daemons/' + program.daemon).default;
+  var start = stop = function(){};
+  run_command({
+    master: [ {start, stop} ],
+    worker: [ daemon ]
   });
 } else {
-  run(daemons.master)();
-  run(daemons.worker)();
+  var daemons = require(production ?
+                       './build/daemons':
+                       './src/daemons').default;
+  run_command(daemons);
 }
