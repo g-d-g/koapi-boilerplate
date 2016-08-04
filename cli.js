@@ -5,6 +5,7 @@ var Model   = require('koapi').Model;
 var config  = require('config');
 var _       = require('lodash');
 var production = process.env.NODE_ENV == 'production';
+var program = require('commander');
 
 !production && require('babel-register');
 
