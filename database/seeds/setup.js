@@ -18,6 +18,7 @@ exports.seed = function(knex, Promise) {
     knex('user2role').insert({user_id:1,role_id:1}) ,
     knex('posts').insert({title: 'Post Title', contents:'Post Contents', user_id:1}),
     knex('posts').insert({title: 'Post Title', contents:'Post Contents', user_id:1}),
+    knex('comments').insert({title: 'Comment Title', contents:'Comment Contents', user_id:1, post_id:1}),
     knex('comments').insert({title: 'Comment Title', contents:'Comment Contents', user_id:1, post_id:1})
   );
 };
