@@ -11,12 +11,10 @@ Model.init(config.database);
 
 const app  = new Koapi();
 
-export default function () {
-  return app.run(Object.assign({
-    middlewares: require('./middlewares'),
-    routers: require('./routers').default,
-    serve: { root: storage('/public') }
-  }, config));
-}
+app.setup(Object.assign({
+  middlewares: require('./middlewares'),
+  routers: require('./routers').default,
+  serve: { root: storage('/public') }
+}, config));
 
-export {app};
+export default app;

@@ -1,7 +1,7 @@
 import schedule from 'node-schedule'
 import schedulers from './schedulers'
 
-const log = require('../lib/helper').logger('daemon');
+const log = require('../lib/helper').logger('service');
 
 function done(scheduler) {
   context.done++;

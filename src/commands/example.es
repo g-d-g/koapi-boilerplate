@@ -1,3 +1,4 @@
+import app from '../app'
 import Post from '../models/post'
 import {Model} from 'koapi'
 

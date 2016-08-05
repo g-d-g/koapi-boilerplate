@@ -1,5 +1,6 @@
 import queues from './queues'
-const log = require('../lib/helper').logger('daemon');
+
+const log = require('../lib/helper').logger('service');
 
 export default {
   start(id){

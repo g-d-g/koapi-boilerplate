@@ -1,4 +1,4 @@
-import server from '../../server'
+import {server} from '../init'
 import {test, expect, request} from 'koapi/lib/test'
 
 

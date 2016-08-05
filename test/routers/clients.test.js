@@ -1,4 +1,4 @@
-import server from '../../server'
+import {server} from '../init'
 import suite from 'koapi/lib/test'
 
 suite(({ResourceTester, request, expect, test}) => {
