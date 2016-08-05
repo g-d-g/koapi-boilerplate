@@ -2,7 +2,6 @@
 
 require('babel-polyfill');
 var program = require('commander');
-var glob    = require('glob');
 var Model   = require('koapi').Model;
 var config  = require('config');
 var _       = require('lodash');
@@ -13,7 +12,7 @@ var program = require('commander');
 
 Model.init(config.database);
 
-var commands = require(production ? './build/commands' : './src/commands');
+var commands = require(production ? './build/commands' : './src/commands').default;
 
 function done() {
   process.exit();
@@ -24,7 +23,7 @@ function error(e) {
   done();
 }
 
-_.forIn(commands, function (cmd, name) {
+commands.forEach(function (cmd) {
   var subcommand = program.command(cmd.command);
   if (cmd.description) subcommand.description(cmd.description);
   cmd.options && _.forIn(cmd.options, function (desc, option) {
@@ -42,9 +41,5 @@ if (!process.argv.slice(2).length) {
   program.outputHelp();
   done();
 }
-program.command('*')
-  .action(function(env){
-    console.log('"%s"', env);
-  });
 
 program.parse(process.argv);
