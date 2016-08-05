@@ -1,8 +1,7 @@
 import app from '../app'
 import Post from '../models/post'
 import {Model} from 'koapi'
-
-const log = require('../lib/helper').logger('cli');
+import log from 'winston'
 
 // see https://github.com/tj/commander.js
 export default {

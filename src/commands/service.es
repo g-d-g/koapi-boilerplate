@@ -1,7 +1,6 @@
 import cluster from 'throng'
 import _ from 'lodash'
-
-const log = require('../lib/helper').logger('service');
+import log from 'winston'
 
 function run_service(services) {
   return function (pid) {

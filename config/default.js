@@ -6,7 +6,6 @@ module.exports = {
     expose:['Content-Range']
   },
   accesslog:{ path: __dirname + '/../storage/logs/access.log' },
-  errorlog:{ path: __dirname + '/../storage/logs/error.log' },
   oauth:{
     providers:{
       github: {
