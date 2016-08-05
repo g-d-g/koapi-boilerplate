@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-
 require('babel-polyfill');
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var program = require('commander');
 var Model   = require('koapi').Model;
 var config  = require('config');
