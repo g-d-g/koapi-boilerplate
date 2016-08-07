@@ -1,6 +1,6 @@
 import schedule from 'node-schedule'
 import {queue} from '../queues/mailer'
-const log = require('../../lib/helper').logger('daemon');
+import log from 'koapi/lib/logger'
 
 const jobs = {};
 

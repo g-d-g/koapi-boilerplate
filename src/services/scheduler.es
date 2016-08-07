@@ -1,7 +1,6 @@
 import schedule from 'node-schedule'
 import schedulers from './schedulers'
-
-const log = require('../lib/helper').logger('service');
+import log from 'koapi/lib/logger'
 
 function done(scheduler) {
   context.done++;

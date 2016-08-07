@@ -1,6 +1,5 @@
 import queues from './queues'
-
-const log = require('../lib/helper').logger('service');
+import log from 'koapi/lib/logger'
 
 export default {
   start(id){

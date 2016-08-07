@@ -1,7 +1,6 @@
 import Queue from 'bull'
 import config from '../../../config'
-
-const log = require('../../lib/helper').logger('daemon');
+import log from 'koapi/lib/logger'
 
 export const queue = new Queue('Mailer', config.redis.port, config.redis.host);
 export async function worker(job) {
