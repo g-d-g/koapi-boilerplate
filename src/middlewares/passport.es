@@ -1,14 +1,14 @@
 import {Model} from 'koapi'
 import passport from 'koa-passport'
-import config from '../../../config'
+import config from '../../config'
 import GithubStrategy from 'passport-github'
 import {BasicStrategy} from 'passport-http'
 import BearerStrategy from 'passport-http-bearer'
 import ClientPasswordStrategy from 'passport-oauth2-client-password'
-import OpenID from '../../models/user_openid'
-import Client from '../../models/oauth/client'
-import User from '../../models/user'
-import Token from '../../models/oauth/token'
+import OpenID from '../models/user_openid'
+import Client from '../models/oauth/client'
+import User from '../models/user'
+import Token from '../models/oauth/token'
 import moment from 'moment'
 import axios from 'axios'
 import create_error from 'http-errors'
@@ -89,19 +89,6 @@ passport.use(new BearerStrategy(
     }
   }
 ));
-
-// for non-oauth-server
-// passport.use(new BearerStrategy(
-//   async (access_token, done) => {
-//     try {
-//       // 如苦token尚未过期，则认证通过
-//       let openid = await OpenID.where({access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user']});
-//       return done(null, openid ? openid.related('user') : {}, {scope: 'all'});
-//     } catch (e) {
-//       return done(e, false);
-//     }
-//   }
-// ));
 
 export default passport;
 
