@@ -41,6 +41,8 @@ module.exports = {
     },
   },
   redis: {
+    pkg:       'ioredis',
+    database:0,
     host: '172.17.0.7',
     port: 6379,
     password: null,

@@ -1,4 +1,5 @@
 import {Router} from 'koapi'
+import {queue} from '../services/queues/resque'
 
 const index = new Router();
 
@@ -33,6 +34,11 @@ const index = new Router();
     e.name = 'ValidationError';
     throw e;
     ctx.body = 'Hello World! I\'m an API';
+  });
+
+  index.get('/test', async (ctx) => {
+    queue.enqueue('abc', 'mailer', [{msg:'hehe'}]);
+    ctx.body = 'hehe';
   });
 
   index.post('/', async (ctx) => {
