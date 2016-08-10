@@ -5,12 +5,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import logger from 'koapi/lib/logger'
 import {storage} from './lib/helper'
-
-logger.add(logger.transports.File, {
-  name: 'koapi',
-  json: false,
-  filename: storage('/logs/koapi.log')
-});
+import http_error from 'http-errors'
 
 logger.add(logger.transports.File, {
   name: 'error',
@@ -18,6 +13,13 @@ logger.add(logger.transports.File, {
   filename: storage('/logs/error.log'),
   level: 'error'
 });
+
+logger.add(logger.transports.File, {
+  name: 'koapi',
+  json: false,
+  filename: storage('/logs/koapi.log')
+});
+
 
 // init knex and bookshelf
 Model.init(config.database);
@@ -29,6 +31,8 @@ app.setup(Object.assign({
   routers: require('./routers').default,
   serve: { root: storage('/public') }
 }, config));
+
+
 
 export default app;
 export const log = app.log;

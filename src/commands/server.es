@@ -1,6 +1,6 @@
 import app from '../app'
 import config from '../../config'
-import log from 'winston'
+import log from 'koapi/lib/logger'
 
 export default {
   command: 'server',

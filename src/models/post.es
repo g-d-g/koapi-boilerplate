@@ -3,20 +3,15 @@ import Comment from './comment';
 import Joi from 'joi';
 
 export const fields = {
-  title: Joi.string().min(3).max(30),
+  title: Joi.string().min(3).max(30).required(),
+  contents: Joi.string(),
+  user_id: Joi.number().integer(),
 };
 
 export default Model.extend({
   tableName: 'posts',
   hasTimestamps: true,
-  schema: {
-    create: Joi.object().keys({
-      title: fields.title.required(),
-    }).unknown(true),
-    update: Joi.object().keys({
-      title: fields.title.required(),
-    }).unknown(true)
-  },
+  validate: fields,
   comments: function(){
     return this.hasMany(Comment);
   },

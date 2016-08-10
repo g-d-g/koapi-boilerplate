@@ -5,9 +5,9 @@ import User from './user'
 
 export const fields = Object.assign({
   id: Joi.number().integer(),
-  user_id: Joi.number().integer(),
-  provider: Joi.string(),
-  openid: Joi.string(),
+  user_id: Joi.number().integer().required(),
+  provider: Joi.string().required(),
+  openid: Joi.string().required(),
   access_token: Joi.string(),
   refresh_token: Joi.string(),
   profile: Joi.object(),
@@ -17,16 +17,7 @@ export const fields = Object.assign({
 export default Model.extend({
   tableName: 'user_openids',
   hasTimestamps: true,
-  schema: {
-    create: Joi.object().keys(Object.assign({}, fields, {
-      user_id: fields.user_id.required(),
-      provider: fields.provider.required(),
-      openid: fields.openid.required(),
-      access_token: fields.access_token.required(),
-      expires_at: fields.expires_at.required(),
-    })),
-    update: Joi.object().keys(fields)
-  },
+  validate: fields,
   user(){
     return this.belongsTo(User);
   }

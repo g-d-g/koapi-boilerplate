@@ -7,22 +7,15 @@ import md5 from 'blueimp-md5'
 
 export const fields = Object.assign({
   id: Joi.number().integer(),
-  username: Joi.string(),
-  password: Joi.string(),
-  email: Joi.string().email(),
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+  email: Joi.string().email().required(),
 }, timestamps());
 
 export default Model.extend({
   tableName: 'users',
   hasTimestamps: true,
-  schema: {
-    create: Joi.object().keys(Object.assign({}, fields, {
-      username: fields.username.required(),
-      password: fields.password.required(),
-      email: fields.email.required(),
-    })),
-    update: Joi.object().keys(fields)
-  },
+  validate: fields,
   roles(){
     return this.belongsToMany(Role, 'user2role');
   },

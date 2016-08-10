@@ -28,7 +28,10 @@ const index = new Router();
    *     }
    */
   index.get('/', async (ctx) => {
-    throw Error('haha');
+    // return ctx.throw('haha', 422);
+    let e = new Error('haha');
+    e.name = 'ValidationError';
+    throw e;
     ctx.body = 'Hello World! I\'m an API';
   });
 
