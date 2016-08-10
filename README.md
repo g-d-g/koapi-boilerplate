@@ -15,29 +15,34 @@ A Koapi boilerplate
 
 ## Run dev server
 
-### dev server
+### Start server
 ```bash
-npm run dev:server
+npm start
+```
+### Start Services (Built-in: Scheduler & Queue)
+```bash
+npm run service
+```
+### Watch file-changes and auto restart server(Dev-mode)
+```bash
+npm run watch server
+```
+### Watch file-changes and auto restart services(Dev-mode)
+```bash
+npm run watch service
 ```
 
-### watch apidoc
+### Build production
 
 ```bash
-npm run dev:apidoc
+npm run build
 ```
 
-### serve apidoc
+### Generate apidoc
 
 ```bash
-npm run serve:apidoc
+npm run build doc
 ```
-### serve coverage
-
-```bash
-npm run serve:coverage
-```
-
-
 
 ## Test
 
@@ -46,31 +51,23 @@ npm run serve:coverage
 npm test
 
 # For code coverage testing
-npm run test:coverage
+npm run test coverage
 ```
 
 ## Database maintenance
 ```bash
-# Create table & seed data
-npm run db:setup
+# migrate latest
+npm run migrate
 
 # Rollback db changes
-npm run db:rollback
+npm run migrate rollback
 ```
 
-### Knex cli tools
+### migrate & seed
 ```bash
-# migrate
-npm run knex migrate:latest
-
-# seed
-npm run knex seed:run
-
-# other knex migration tools
-...
+npm run migrate setup
 ```
-
-## Build
+### rollback & migrate & seed
 ```bash
-npm run build
+npm run migrate reset
 ```
