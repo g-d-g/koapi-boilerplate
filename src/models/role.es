@@ -4,7 +4,6 @@ import {timestamps} from '../lib/helper'
 import User from './user'
 
 export const fields = Object.assign({
-  id: Joi.number().integer(),
   name: Joi.string().required(),
   permissions: Joi.object().required(),
 });

@@ -5,12 +5,11 @@ import Role from './role'
 import OpenID from './user_openid'
 import md5 from 'blueimp-md5'
 
-export const fields = Object.assign({
-  id: Joi.number().integer(),
+export const fields = {
   username: Joi.string().required(),
   password: Joi.string().required(),
   email: Joi.string().email().required(),
-}, timestamps());
+};
 
 export default Model.extend({
   tableName: 'users',

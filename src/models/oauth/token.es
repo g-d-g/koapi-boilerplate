@@ -7,10 +7,10 @@ import uuid from 'node-uuid'
 import User from '../user'
 
 export const fields = Object.assign({
-  token: Joi.string(),
-  type: Joi.string(),
-  client_id: Joi.string(),
-  user_id: Joi.string(),
+  token: Joi.string().required(),
+  type: Joi.string().required(),
+  client_id: Joi.string().required(),
+  user_id: Joi.string().required(),
   scope: Joi.string(),
   expires_at: Joi.date(),
 }, timestamps());
@@ -19,17 +19,7 @@ export default Model.extend({
   tableName: 'oauth_tokens',
   idAttribute: 'token',
   hasTimestamps: true,
-  schema: {
-    create: Joi.object().keys(Object.assign({}, fields, {
-      token: fields.token.required(),
-      type: fields.type.required(),
-      client_id: fields.client_id.required(),
-      user_id: fields.user_id.required(),
-      scope: fields.scope.required(),
-      expires_at: fields.expires_at.required(),
-    })),
-    update: Joi.object().keys(fields)
-  },
+  validate: fields,
   user(){
     return this.belongsTo(User);
   }
