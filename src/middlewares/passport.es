@@ -2,6 +2,7 @@ import {Model} from 'koapi'
 import passport from 'koa-passport'
 import config from '../../config'
 import GithubStrategy from 'passport-github'
+import OAuth2Strategy from 'passport-oauth2'
 import {BasicStrategy} from 'passport-http'
 import BearerStrategy from 'passport-http-bearer'
 import ClientPasswordStrategy from 'passport-oauth2-client-password'
@@ -13,48 +14,41 @@ import moment from 'moment'
 import axios from 'axios'
 import create_error from 'http-errors'
 
-const github_verify = async (access_token, refresh_token, params, profile, done) => {
-  let auth_info = {access_token, refresh_token, profile, params};
-  try {
-    let openid = await OpenID.forge().where({openid:profile.id}).fetch({withRelated:['user']});
-    let user;
-    if (!openid) {
-      user = new User();
-      await Model.bookshelf.transaction(t => {
-        return user.save({
-          username:profile.username,
-          password: 'default',
-          email: 'garbinh@gmail.com'
-        }, {
-          transacting: t
-        }).tap( model => {
-          return model.openids().create({
-            openid: profile.id,
-            access_token,
-            refresh_token,
-            provider: profile.provider,
-            expires_at: moment().add(2, 'hours').toDate(),
-            profile
-          }, { transacting: t })
-        }).then(t.commit).catch(t.rollback);
-      });
-    } else {
-      await openid.save({
+function openid_signin(provider, get_profile) {
+  return async (access_token, refresh_token, params, profile, done) => {
+    let auth_info = {access_token, refresh_token, profile, params};
+    try {
+
+      let user = await OpenID.signin(provider, Object.assign({
         access_token,
         refresh_token,
-        expires_at: moment().add(2, 'hours').toDate(),
+      }, await get_profile({
+        access_token,
+        refresh_token,
+        params,
         profile
-      }, {patch:true});
-      user = openid.related('user');
+      })));
+      return done(null, user, auth_info);
+    } catch (e) {
+      return done(e, false, auth_info);
     }
-    return done(null, user, auth_info);
-  } catch (e) {
-    return done(e, false, auth_info);
   }
-};
+}
 
 
-passport.use(new GithubStrategy(config.oauth.providers.github, github_verify));
+passport.use(new GithubStrategy(config.passport.github, openid_signin('github', async ({profile})=>({
+  open_id: profile.id,
+  username: profile.username,
+  email: 'garbinh@gmail.com',
+  profile
+}))));
+
+passport.use(new OAuth2Strategy(config.passport.oauth2, openid_signin('oauth2', async ({access_token, profile})=>({
+  open_id: 1000,
+  username: 'garbin1000',
+  email: 'garbin100@gmail.com',
+  profile
+}))));
 
 passport.use(new BasicStrategy(
   async function(username, password, done) {
