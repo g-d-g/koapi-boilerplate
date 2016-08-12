@@ -14,6 +14,10 @@ const auth = new Router();
     };
   });
 
+  auth.del('/auth/sign_out', authenticate('bearer'), async (ctx) => {
+    ctx.body = { success: true };
+  });
+
   auth.get('/auth/:provider', async (ctx, next) => {
     let provider = config.oauth.providers[ctx.params.provider].strategy || ctx.params.provider;
     await passport.authenticate(provider, {
