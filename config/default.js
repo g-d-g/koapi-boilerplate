@@ -20,7 +20,7 @@ module.exports = {
       clientID: 'f189f2f0acb906410f73',
       clientSecret: '33529fb2ca00394217494f1030d3c1f3f1aec715',
       callbackURL: "http://192.168.205.128:5000/auth/oauth2/callback",
-      redirect_back: "http://192.168.205.128:5100/"
+      redirect_back: "http://ubuntu:5100/auth"
     }
   },
   database : {

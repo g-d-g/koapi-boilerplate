@@ -7,16 +7,6 @@ import {base64} from '../lib/helper'
 
 const auth = new Router();
 
-  auth.get('/auth/validate_token', authenticate('bearer'), async (ctx) => {
-    ctx.body = {
-      success: true,
-      data: ctx.state.user
-    };
-  });
-
-  auth.del('/auth/sign_out', authenticate('bearer'), async (ctx) => {
-    ctx.body = { success: true };
-  });
 
   auth.get('/auth/:provider', async (ctx, next) => {
     let provider = config.passport[ctx.params.provider].strategy || ctx.params.provider;
