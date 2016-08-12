@@ -1,11 +1,11 @@
-import {ResourceRouter} from 'koapi';
+import {ResourceRouter, Router} from 'koapi';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import index from './default'
 import auth from './auth'
-import subdomain from './subdomain'
 import clients from './oauth/clients'
 import token from './oauth/token'
+import {subdomain} from 'koapi/lib/middlewares'
 
 const posts = (new ResourceRouter(Post.collection())).crud();
 
@@ -16,12 +16,17 @@ comments.use(async (ctx, next)=>{
 });
 comments.crud();
 
+const sm = new Router()
+sm.get('/', async (ctx) => {
+  ctx.body = 'api';
+});
+
 export default [
-  subdomain,
   index,
   posts,
   auth,
   token,
   clients,
   posts.use('/posts/:post_id/comments', comments.routes()),
+  subdomain('api.*', sm.routes())
 ]
