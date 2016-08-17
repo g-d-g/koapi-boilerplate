@@ -3,18 +3,22 @@ import config from '../config'
 import _ from 'lodash'
 import path from 'path'
 import fs from 'fs-extra'
-import logger from 'koapi/lib/logger'
+import logger, {winston} from 'koapi/lib/logger'
 import {storage} from './lib/helper'
 import http_error from 'http-errors'
 
-logger.add(logger.transports.File, {
+logger.emitErrs = true;
+logger.on('error', console.error);
+
+// console.log(storage('/logs/error.log'));
+logger.add(winston.transports.File, {
   name: 'error',
   json: false,
   filename: storage('/logs/error.log'),
   level: 'error'
 });
 
-logger.add(logger.transports.File, {
+logger.add(winston.transports.File, {
   name: 'koapi',
   json: false,
   filename: storage('/logs/koapi.log')

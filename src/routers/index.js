@@ -22,11 +22,11 @@ sm.get('/', async (ctx) => {
 });
 
 export default [
+  subdomain('api.*', sm.routes()),
   index,
   posts,
   auth,
   token,
   clients,
   posts.use('/posts/:post_id/comments', comments.routes()),
-  subdomain('api.*', sm.routes())
 ]

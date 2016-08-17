@@ -1,6 +1,5 @@
 import { Model } from 'koapi';
 import Joi from 'joi';
-import {timestamps} from '../../lib/helper'
 
 export const fields = Object.assign({
   client_id: Joi.string(),

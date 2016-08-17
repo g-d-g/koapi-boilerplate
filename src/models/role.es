@@ -1,12 +1,11 @@
 import { Model } from 'koapi';
 import Joi from 'joi';
-import {timestamps} from '../lib/helper'
 import User from './user'
 
-export const fields = Object.assign({
+export const fields = {
   name: Joi.string().required(),
   permissions: Joi.object().required(),
-});
+};
 
 export default Model.extend({
   tableName: 'roles',

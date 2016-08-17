@@ -22,7 +22,7 @@ const auth = new Router();
     let {clientID, redirect_back} = config.passport[ctx.params.provider];
     let state = ctx.query.state ? JSON.parse(base64.decode(ctx.query.state)) : {};
     let token = await Token.issue(clientID, ctx.state.user.get('id').toString());
-    let redirect_url = (state.redirect || state.auth_origin_url || redirect_back) + '?token='+ token.access_token.get('token') + `&uid=${ctx.state.user.get('id')}&client=${clientID}`;
+    let redirect_url = (state.redirect || state.auth_origin_url || redirect_back || '/') + '?token='+ token.access_token.get('token') + `&uid=${ctx.state.user.get('id')}&client=${clientID}`;
     ctx.redirect(redirect_url);
     ctx.body = 'redirecting...';
   });

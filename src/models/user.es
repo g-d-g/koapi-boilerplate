@@ -1,6 +1,5 @@
 import { Model } from 'koapi';
 import Joi from 'joi';
-import {timestamps} from '../lib/helper'
 import Role from './role'
 import OpenID from './user_openid'
 import md5 from 'blueimp-md5'

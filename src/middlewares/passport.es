@@ -18,7 +18,6 @@ function openid_signin(provider, get_profile) {
   return async (access_token, refresh_token, params, profile, done) => {
     let auth_info = {access_token, refresh_token, profile, params};
     try {
-
       let user = await OpenID.signin(provider, Object.assign({
         access_token,
         refresh_token,

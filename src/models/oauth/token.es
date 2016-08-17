@@ -1,19 +1,18 @@
 import { Model } from 'koapi';
 import Joi from 'joi';
-import {timestamps} from '../../lib/helper'
 import moment from 'moment'
 import md5 from 'blueimp-md5'
 import uuid from 'node-uuid'
 import User from '../user'
 
-export const fields = Object.assign({
+export const fields = {
   token: Joi.string().required(),
   type: Joi.string().required(),
   client_id: Joi.string().required(),
   user_id: Joi.string().required(),
   scope: Joi.string(),
   expires_at: Joi.date(),
-}, timestamps());
+};
 
 export default Model.extend({
   tableName: 'oauth_tokens',
