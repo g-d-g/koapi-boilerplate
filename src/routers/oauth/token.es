@@ -15,7 +15,8 @@ const oauth = new Router();
   });
 
   oauth.del('/oauth/token', authenticate('bearer'), async (ctx) => {
-    await Token.where({token: ctx.passport.authInfo.access_token}).destroy();
+    let {access_token} = ctx.passport.authInfo;
+    await Token.where({access_token}).destroy();
     ctx.body = { success: true };
   });
 

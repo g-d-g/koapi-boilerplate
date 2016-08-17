@@ -12,7 +12,7 @@ server.exchange(oauth2orize.exchange.password(async (client, username, password,
     let user   = await User.auth(username, password);
     // 签发Token
     let token  = await Token.issue(client.get('client_id'), user.get('id').toString());
-    return [token.access_token.get('token'), token.refresh_token.get('token'), {
+    return [token.get('access_token'), token.get('refresh_token'), {
       expires: 7200
     }];
   } catch (e) {
@@ -24,7 +24,7 @@ server.exchange(oauth2orize.exchange.refreshToken(async (client, refreshToken, s
   try {
     let token = await Token.where({token:refreshToken, type:'refresh'}).fetch({require:true});
     let new_token = await Token.issue(token.get('client_id'), token.get('user_id'));
-    return [new_token.access_token.get('token'), new_token.refresh_token.get('token'), {
+    return [new_token.get('access_token'), new_token.get('refresh_token'), {
       expires: 7200
     }];
   } catch (e) {

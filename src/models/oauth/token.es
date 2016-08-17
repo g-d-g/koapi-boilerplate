@@ -6,17 +6,17 @@ import uuid from 'node-uuid'
 import User from '../user'
 
 export const fields = {
-  token: Joi.string().required(),
-  type: Joi.string().required(),
+  access_token: Joi.string().required(),
+  refresh_token: Joi.string().required(),
   client_id: Joi.string().required(),
   user_id: Joi.string().required(),
   scope: Joi.string(),
-  expires_at: Joi.date(),
+  access_token_expires_at: Joi.date(),
+  refresh_token_expires_at: Joi.date(),
 };
 
 export default Model.extend({
   tableName: 'oauth_tokens',
-  idAttribute: 'token',
   hasTimestamps: true,
   validate: fields,
   user(){
@@ -24,28 +24,17 @@ export default Model.extend({
   }
 }, {
   async issue(client_id, user_id){
-    let access_token = new this();
-    let refresh_token = new this();
-    access_token = await access_token.save({
-      token: md5(uuid.v1()),
-      type:'access',
+    let token = new this();
+    token = await token.save({
       client_id,
       user_id,
       scope: 'all',
-      expires_at: moment().add(1, 'days').toDate()
-    });
-    refresh_token = await refresh_token.save({
-      token: md5(uuid.v1()),
-      type:'refresh',
-      client_id,
-      user_id,
-      scope: 'all',
-      expires_at: moment().add(30, 'days').toDate()
+      access_token: md5(uuid.v1()),
+      access_token_expires_at: moment().add(1, 'days').toDate(),
+      refresh_token: md5(uuid.v1()),
+      refresh_token_expires_at: moment().add(30, 'days').toDate()
     });
 
-    return {
-      access_token,
-      refresh_token
-    }
+    return token;
   }
 });

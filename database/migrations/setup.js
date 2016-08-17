@@ -21,12 +21,14 @@ exports.up = function(knex, Promise) {
                table.timestamp('updated_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
              })
              .createTable('oauth_tokens', function (table) {
-               table.string('token').primary();
-               table.enum('type', ['access', 'refresh']);
+               table.increments('id').primary();
                table.string('client_id');
                table.string('user_id');
                table.string('scope');
-               table.timestamp('expires_at');
+               table.string('access_token').unique();
+               table.string('refresh_token').unique();
+               table.timestamp('access_token_expires_at');
+               table.timestamp('refresh_token_expires_at');
                table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
                table.timestamp('updated_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
              })

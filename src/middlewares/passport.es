@@ -75,7 +75,7 @@ passport.use(new BearerStrategy(
   async (access_token, done) => {
     try {
       // 如苦token尚未过期，则认证通过
-      let token = await Token.where({token:access_token}).where('expires_at', '>', new Date()).fetch({withRelated:['user'], require:true});
+      let token = await Token.where({access_token}).where('access_token_expires_at', '>', new Date()).fetch({withRelated:['user'], require:true});
       return done(null, token ? token.related('user') : {}, {scope: 'all', access_token});
     } catch (e) {
       return done(create_error(401, e), false);
