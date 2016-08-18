@@ -1,7 +1,7 @@
-import mailer from './mailer'
+import bull from './bull'
 import resque from './resque'
 
 export default [
-  mailer,
+  bull,
   resque
 ]

@@ -1,6 +1,6 @@
 import schedule from 'node-schedule'
 import {queue} from '../queues/resque'
-import {queue as mailer} from '../queues/mailer'
+import {queue as mailer} from '../queues/bull'
 import log from 'koapi/lib/logger'
 
 const jobs = {};
