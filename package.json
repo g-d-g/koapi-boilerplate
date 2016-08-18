@@ -31,12 +31,12 @@
     ]
   },
   "scripts": {
-    "start": "node --harmony koapi.js server",
-    "service": "node --harmony koapi.js service",
-    "watch": "nodemon -x \"node --harmony\" -e js,es,jsx -L koapi.js --",
-    "build": "node --harmony koapi.js build",
-    "test": "node --harmony koapi.js test",
-    "migrate": "node --harmony koapi.js migrate"
+    "start": "node --harmony run.js server",
+    "service": "node --harmony run.js service",
+    "watch": "nodemon -x \"node --harmony\" -e js,es,jsx -L run.js --",
+    "build": "node --harmony run.js build",
+    "test": "node --harmony run.js test",
+    "migrate": "node --harmony run.js migrate"
   },
   "repository": {
     "type": "git",
