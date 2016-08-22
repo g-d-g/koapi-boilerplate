@@ -5,17 +5,16 @@ import _ from 'lodash'
 import Token from '../models/oauth/token'
 import {base64} from '../lib/helper'
 
-const auth = new Router();
+export default Router.define(router => {
 
-
-  auth.get('/auth/:provider', async (ctx, next) => {
+  router.get('/auth/:provider', async (ctx, next) => {
     let provider = config.passport[ctx.params.provider].strategy || ctx.params.provider;
     await passport.authenticate(provider, {
       state: ctx.query.state || base64.encode(ctx.query)
     })(ctx, next);
   });
 
-  auth.get('/auth/:provider/callback', async (ctx, next) => {
+  router.get('/auth/:provider/callback', async (ctx, next) => {
     let provider = config.passport[ctx.params.provider].strategy || ctx.params.provider;
     await authenticate(provider, { session:false }).call(this, ctx, next);
   }, async (ctx) => {
@@ -27,4 +26,4 @@ const auth = new Router();
     ctx.body = 'redirecting...';
   });
 
-export default auth;
+});

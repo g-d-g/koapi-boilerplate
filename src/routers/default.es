@@ -1,8 +1,8 @@
 import {Router} from 'koapi'
 import {queue} from '../services/queues/resque'
 
-const index = new Router();
 
+export default Router.define( router => {
   /**
    * @api {get} / Index
    * @apiName Index
@@ -28,7 +28,7 @@ const index = new Router();
    *       "error": "UserNotFound"
    *     }
    */
-  index.get('/', async (ctx) => {
+  router.get('/', async (ctx) => {
     // return ctx.throw('haha', 422);
     let e = new Error('haha');
     e.name = 'ValidationError';
@@ -36,13 +36,12 @@ const index = new Router();
     ctx.body = 'Hello World! I\'m an API';
   });
 
-  index.get('/test', async (ctx) => {
+  router.get('/test', async (ctx) => {
     queue.enqueue('abc', 'mailer', [{msg:'hehe'}]);
     ctx.body = 'hehe';
   });
 
-  index.post('/', async (ctx) => {
+  router.post('/', async (ctx) => {
     ctx.body = ctx.request.body;
   });
-
-export default index;
+})
