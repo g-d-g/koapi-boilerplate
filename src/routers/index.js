@@ -7,7 +7,7 @@ import clients from './oauth/clients'
 import token from './oauth/token'
 import {subdomain} from 'koapi/lib/middlewares'
 
-const posts = (new ResourceRouter(Post.collection())).crud();
+const posts = ResourceRouter.define(Post.collection());
 
 const comments = new ResourceRouter(ctx => ctx.state.post.comments());
 comments.use(async (ctx, next)=>{

@@ -21,7 +21,7 @@ export default Router.define(router => {
   });
 
   router.post('/oauth/token',
-             passport.authenticate('oauth2-client-password', {session:false}),
+             authenticate('oauth2-client-password'),
              oauth_server.token(),
              oauth_server.errorHandler());
 })
