@@ -6,7 +6,7 @@ import OAuth2Strategy from 'passport-oauth2'
 import {BasicStrategy} from 'passport-http'
 import BearerStrategy from 'passport-http-bearer'
 import ClientPasswordStrategy from 'passport-oauth2-client-password'
-import OpenID from '../models/user_openid'
+import Account from '../models/user_account'
 import Client from '../models/oauth/client'
 import User from '../models/user'
 import Token from '../models/oauth/token'
@@ -14,11 +14,11 @@ import moment from 'moment'
 import axios from 'axios'
 import create_error from 'http-errors'
 
-function openid_signin(provider, get_profile) {
+function account_signin(provider, get_profile) {
   return async (access_token, refresh_token, params, profile, done) => {
     let auth_info = {access_token, refresh_token, profile, params};
     try {
-      let user = await OpenID.signin(provider, Object.assign({
+      let user = await Account.signin(provider, Object.assign({
         access_token,
         refresh_token,
       }, await get_profile({
@@ -35,15 +35,15 @@ function openid_signin(provider, get_profile) {
 }
 
 
-passport.use(new GithubStrategy(config.passport.github, openid_signin('github', async ({profile})=>({
-  open_id: profile.id,
+passport.use(new GithubStrategy(config.passport.github, account_signin('github', async ({profile})=>({
+  account_id: profile.id,
   username: profile.username,
   email: 'garbinh@gmail.com',
   profile
 }))));
 
-passport.use(new OAuth2Strategy(config.passport.oauth2, openid_signin('oauth2', async ({access_token, profile})=>({
-  open_id: 1000,
+passport.use(new OAuth2Strategy(config.passport.oauth2, account_signin('oauth2', async ({access_token, profile})=>({
+  account_id: 1000,
   username: 'garbin1000',
   email: 'garbin100@gmail.com',
   profile

@@ -49,11 +49,11 @@ exports.up = function(knex, Promise) {
                table.string('name').unique();
                table.jsonb('permissions');
              })
-             .createTable('user_openids', function (table) {
+             .createTable('user_accounts', function (table) {
                table.increments('id').primary();
                table.integer('user_id');
                table.string('provider');
-               table.string('openid');
+               table.string('account_id');
                table.string('access_token');
                table.string('refresh_token');
                table.jsonb('profile');
@@ -85,7 +85,7 @@ exports.down = function(knex, Promise) {
              .dropTable('users')
              .dropTable('roles')
              .dropTable('user2role')
-             .dropTable('user_openids')
+             .dropTable('user_accounts')
              .dropTable('oauth_clients')
              .dropTable('oauth_authorization_codes')
              .dropTable('oauth_tokens')

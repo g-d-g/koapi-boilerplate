@@ -3,11 +3,10 @@ import Joi from 'joi';
 import User from './user'
 import moment from 'moment'
 
-
 export const fields = {
   user_id: Joi.number().integer().required(),
   provider: Joi.string().required(),
-  openid: Joi.any().required(),
+  account_id: Joi.any().required(),
   access_token: Joi.string(),
   refresh_token: Joi.string(),
   profile: Joi.object(),
@@ -15,7 +14,7 @@ export const fields = {
 };
 
 export default Model.extend({
-  tableName: 'user_openids',
+  tableName: 'user_accounts',
   hasTimestamps: true,
   validate: fields,
   user(){
@@ -23,10 +22,10 @@ export default Model.extend({
   }
 }, {
   async signin(provider, response){
-    let {open_id, username, email, profile, access_token, refresh_token} = response;
-    let openid = await this.forge().where({openid: open_id}).fetch({withRelated:['user']});
+    let {account_id, username, email, profile, access_token, refresh_token} = response;
+    let account = await this.forge().where({account_id}).fetch({withRelated:['user']});
     let user;
-    if (!openid) {
+    if (!account) {
       user = new User();
       await Model.bookshelf.transaction(t => {
         return user.save({
@@ -36,8 +35,8 @@ export default Model.extend({
         }, {
           transacting: t
         }).tap( model => {
-          return model.openids().create({
-            openid: open_id,
+          return model.accounts().create({
+            account_id,
             access_token,
             refresh_token,
             provider,
@@ -47,7 +46,7 @@ export default Model.extend({
         }).then(t.commit).catch(t.rollback);
       });
     } else {
-      await openid.save({
+      await account.save({
         access_token,
         refresh_token,
         expires_at: moment().add(2, 'hours').toDate(),

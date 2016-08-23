@@ -7,7 +7,6 @@ suite(({ResourceTester, request, expect, test}) => {
 
   // POST
   tester.create({
-    client_id:'aaa',
     client_secret: 'aaa',
     redirect_uri: 'abc',
     grant_types: 'aaa',

@@ -1,7 +1,7 @@
 import { Model } from 'koapi';
 import Joi from 'joi';
 import Role from './role'
-import OpenID from './user_openid'
+import Account from './user_account'
 import md5 from 'blueimp-md5'
 
 export const fields = {
@@ -17,8 +17,8 @@ export default Model.extend({
   roles(){
     return this.belongsToMany(Role, 'user2role');
   },
-  openids(){
-    return this.hasMany(OpenID);
+  accounts(){
+    return this.hasMany(Account);
   }
 }, {
   async auth(ident, password){

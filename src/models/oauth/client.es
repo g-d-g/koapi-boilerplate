@@ -15,4 +15,5 @@ export default Model.extend({
   idAttribute: 'client_id',
   hasTimestamps: true,
   validate: fields,
+  uuid:true,
 });
