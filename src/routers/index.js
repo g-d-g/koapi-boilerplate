@@ -9,16 +9,21 @@ import {subdomain} from 'koapi/lib/middlewares'
 
 const posts = ResourceRouter.define(Post.collection());
 
-const comments = new ResourceRouter(ctx => ctx.state.post.comments());
-comments.use(async (ctx, next)=>{
-  ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
-  await next()
+const comments =  ResourceRouter.define({
+  collection: ctx => ctx.state.post.comments(),
+  setup(router){
+    router.use(async (ctx, next)=>{
+      ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
+      await next()
+    });
+    router.crud();
+  }
 });
-comments.crud();
 
-const sm = new Router()
-sm.get('/', async (ctx) => {
-  ctx.body = 'api';
+const sm = Router.define(router => {
+  router.get('/', async (ctx) => {
+    ctx.body = 'api';
+  });
 });
 
 export default [

@@ -52,7 +52,7 @@ export default Model.extend({
         expires_at: moment().add(2, 'hours').toDate(),
         profile
       }, {patch:true});
-      user = openid.related('user');
+      user = account.related('user');
     }
 
     return user;
