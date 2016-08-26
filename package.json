@@ -89,7 +89,6 @@
   },
   "devDependencies": {
     "apidoc": "^0.16.1",
-    "apidoc-plugin-example": "0.0.2",
     "apidoc-plugin-schema": "0.0.6",
     "babel-cli": "^6.9.0",
     "babel-polyfill": "^6.9.0",
@@ -98,8 +97,6 @@
     "babel-register": "^6.9.0",
     "fs-extra": "^0.30.0",
     "generate-schema": "^2.1.1",
-    "joi-to-json-schema": "^2.2.0",
-    "json-schema-generator": "^2.0.3",
     "nock": "^8.0.0",
     "nodemon": "^1.9.2",
     "nyc": "^7.1.0"

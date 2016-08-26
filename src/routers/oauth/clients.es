@@ -1,7 +1,6 @@
 import {ResourceRouter} from 'koapi'
 import user from '../../middlewares/user'
 import Client, {fields} from '../../models/oauth/client'
-import convert from 'joi-to-json-schema'
 
 export default ResourceRouter.define({
   collection: Client.collection(),
