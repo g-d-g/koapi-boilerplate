@@ -29,7 +29,7 @@ program.command('build [object]')
        .action(function (object, options) {
          switch (object) {
            case 'docs':
-             shelljs.exec('apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\"')
+             shelljs.exec('npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\"')
              break;
            case 'schemas':
              var routers = require('./src/routers');
