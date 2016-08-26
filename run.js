@@ -32,7 +32,8 @@ program.command('build [object]')
              shelljs.exec('apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\"')
              break;
            case 'schemas':
-             var routers = require('./src/routers').default;
+             var routers = require('./src/routers');
+             routers = routers.default.concat(routers.nested || []);
              var fs = require('fs-extra');
              _.forEach(routers, function (router) {
                if (_.isFunction(router.schema)) {

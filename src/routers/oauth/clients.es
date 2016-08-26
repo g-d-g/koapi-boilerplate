@@ -21,13 +21,13 @@ export default ResourceRouter.define({
 
     /**
      * @api {get} /oauth/clients List Clients
-     * @apiName list-clients
+     * @apiName list-client
      * @apiGroup Client
-     * @apiSchema {jsonschema=../../../schemas/clients/list/response.schema.json} apiSuccess
+     * @apiSchema {jsonschema=../../../schemas/clients/read/response.schema.json} apiSuccess
      */
 
     /**
-     * @api {get} /oauth/clients/:id Read Client
+     * @api {get} /oauth/clients/:id Read Clients
      * @apiName read-client
      * @apiGroup Client
      * @apiSchema {jsonschema=../../../schemas/clients/read/response.schema.json} apiSuccess
@@ -41,13 +41,6 @@ export default ResourceRouter.define({
      * @apiSchema {jsonschema=../../../schemas/clients/update/response.schema.json} apiSuccess
      */
 
-    /**
-     * @api {put} /oauth/clients/:id Update Clients
-     * @apiName update-client
-     * @apiGroup Client
-     * @apiSchema {jsonschema=../../../schemas/clients/update/request.schema.json} apiParam
-     * @apiSchema {jsonschema=../../../schemas/clients/update/response.schema.json} apiSuccess
-     */
 
     /**
      * @api {delete} /oauth/clients/:id Delete Clients

@@ -1,6 +1,6 @@
 import {ResourceRouter, Router} from 'koapi';
 import Post from '../models/post';
-import Comment from '../models/comment';
+import Comment, {fields} from '../models/comment';
 import index from './default'
 import auth from './auth'
 import clients from './oauth/clients'
@@ -11,7 +11,8 @@ const posts = ResourceRouter.define(Post.collection());
 
 const comments =  ResourceRouter.define({
   collection: ctx => ctx.state.post.comments(),
-  fields: Comment.prototype.validate,
+  name: 'comments',
+  fields,
   setup(router){
     router.use(async (ctx, next)=>{
       ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
@@ -21,13 +22,17 @@ const comments =  ResourceRouter.define({
   }
 });
 
-posts.use('/posts/:post_id/comments', comments.routes());
+posts.use('/posts/:post_id', comments.routes());
 
 const sm = Router.define(router => {
   router.get('/', async (ctx) => {
     ctx.body = 'api';
   });
 });
+
+export const nested = [
+  comments,
+];
 
 export default [
   subdomain('api.*', sm.routes()),
