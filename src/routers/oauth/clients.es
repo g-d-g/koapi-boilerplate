@@ -1,11 +1,13 @@
 import {ResourceRouter} from 'koapi'
 import user from '../../middlewares/user'
 import Client from '../../models/oauth/client'
+import {omit} from 'lodash'
 
 export default ResourceRouter.define({
   collection: Client.collection(),
   root: '/oauth/clients',
   name: 'clients',
+  fields: omit(Client.fields, ['client_secret']),
   id: 'client_id',
   setup(router){
     router.use(user.grant('admin.oauth'));
