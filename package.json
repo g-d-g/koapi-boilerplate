@@ -36,7 +36,8 @@
     "watch": "nodemon -x \"node --harmony\" -e js,es,jsx -L run.js --",
     "build": "node --harmony run.js build",
     "test": "node --harmony run.js test",
-    "migrate": "node --harmony run.js migrate"
+    "migrate": "node --harmony run.js migrate",
+    "docs": "http-server ./docs -p 5003"
   },
   "repository": {
     "type": "git",
@@ -62,11 +63,13 @@
     "commander": "^2.9.0",
     "config": "^1.20.2",
     "es6-promisify": "^4.1.0",
+    "glob": "^7.0.6",
     "http-server": "^0.9.0",
+    "joi": "^9.0.4",
     "koa-compose": "^3.1.0",
     "koa-oauth2orize": "^0.1.3",
     "koa-passport": "^2.2.1",
-    "koapi": "^0.2.44",
+    "koapi": "^0.2.58",
     "lodash": "^4.12.0",
     "moment": "^2.13.0",
     "mysql": "^2.10.2",
@@ -85,13 +88,19 @@
     "winston": "^2.2.0"
   },
   "devDependencies": {
+    "apidoc-plugin-example": "0.0.2",
+    "apidoc-plugin-schema": "0.0.6",
     "babel-cli": "^6.9.0",
     "babel-polyfill": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
+    "fs-extra": "^0.30.0",
+    "generate-schema": "^2.1.1",
     "gulp": "^3.9.1",
     "gulp-apidoc": "^0.2.4",
+    "joi-to-json-schema": "^2.2.0",
+    "json-schema-generator": "^2.0.3",
     "nock": "^8.0.0",
     "nodemon": "^1.9.2",
     "nyc": "^7.1.0"

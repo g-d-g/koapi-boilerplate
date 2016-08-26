@@ -1,0 +1,23 @@
+{
+  "description": "clients",
+  "type": "object",
+  "properties": {
+    "client_secret": {
+      "description": "haha",
+      "type": "string"
+    },
+    "redirect_uri": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "grant_types": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

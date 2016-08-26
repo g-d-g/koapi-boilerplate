@@ -1,0 +1,44 @@
+{
+  "description": "clients",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "client_secret": {
+      "description": "haha",
+      "type": "string"
+    },
+    "redirect_uri": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "grant_types": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "client_id",
+    "created_at",
+    "updated_at",
+    "client_secret",
+    "redirect_uri",
+    "user_id",
+    "grant_types",
+    "scope"
+  ]
+}

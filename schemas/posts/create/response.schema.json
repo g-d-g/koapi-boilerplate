@@ -1,0 +1,38 @@
+{
+  "description": "posts",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 30
+    },
+    "contents": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "created_at",
+    "updated_at",
+    "title",
+    "contents",
+    "user_id"
+  ]
+}

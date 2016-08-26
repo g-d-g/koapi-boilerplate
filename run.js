@@ -8,8 +8,12 @@ var program = require('commander');
 var shelljs = require('shelljs');
 console.log('Using environment: ' + process.env.NODE_ENV);
 
+function drequire(module) {
+  return require((production ? './build/' : './src/') + module);
+}
+
 !production && require('babel-register');
-var commands = require(production ? './build/commands' : './src/commands').default;
+var commands = drequire('commands').default;
 
 function done() {
   process.exit();
@@ -24,8 +28,28 @@ program.command('build [object]')
        .description('Build code/doc (default code)')
        .action(function (object, options) {
          switch (object) {
-           case 'doc':
-             shelljs.exec('gulp apidoc')
+           case 'docs':
+             shelljs.exec('apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\"')
+             break;
+           case 'schemas':
+             var routers = require('./src/routers').default;
+             var fs = require('fs-extra');
+             _.forEach(routers, function (router) {
+               if (_.isFunction(router.schema)) {
+                 console.log(router.options.name);
+                 var schema = router.schema();
+                 if (schema) {
+                   _.forIn(schema, function (v, method) {
+                     var basepath = './schemas/' + router.options.title + '/' + method + '/';
+                     fs.outputJsonSync(basepath + 'request.schema.json', v.schema.request);
+                     fs.outputJsonSync(basepath + 'response.schema.json', v.schema.response);
+                     fs.outputJsonSync(basepath + 'request.example.json', v.example.request);
+                     fs.outputJsonSync(basepath + 'response.example.json', v.example.response);
+                     console.log('write %s successful', router.options.title);
+                   })
+                 }
+               };
+             });
              break;
            default:
              shelljs.exec('babel -d build/ src/')

@@ -11,6 +11,7 @@ const posts = ResourceRouter.define(Post.collection());
 
 const comments =  ResourceRouter.define({
   collection: ctx => ctx.state.post.comments(),
+  fields: Comment.prototype.validate,
   setup(router){
     router.use(async (ctx, next)=>{
       ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
@@ -19,6 +20,8 @@ const comments =  ResourceRouter.define({
     router.crud();
   }
 });
+
+posts.use('/posts/:post_id/comments', comments.routes());
 
 const sm = Router.define(router => {
   router.get('/', async (ctx) => {
@@ -33,5 +36,4 @@ export default [
   auth,
   token,
   clients,
-  posts.use('/posts/:post_id/comments', comments.routes()),
 ]
