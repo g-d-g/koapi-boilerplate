@@ -10,6 +10,7 @@ export default ResourceRouter.define({
   setup(router){
     router.use(user.grant('admin.oauth'));
 
+
     /**
      * @api {post} /oauth/clients Create Clients
      * @apiName post-client

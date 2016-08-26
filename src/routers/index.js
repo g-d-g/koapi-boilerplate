@@ -22,7 +22,7 @@ const comments =  ResourceRouter.define({
   }
 });
 
-posts.use('/posts/:post_id', comments.routes());
+posts.use('/posts/:post_id(\\d+)', comments.routes());
 
 const sm = Router.define(router => {
   router.get('/', async (ctx) => {
