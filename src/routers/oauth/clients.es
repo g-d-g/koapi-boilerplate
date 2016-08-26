@@ -1,6 +1,6 @@
 import {ResourceRouter} from 'koapi'
 import user from '../../middlewares/user'
-import Client, {fields} from '../../models/oauth/client'
+import Client from '../../models/oauth/client'
 
 export default ResourceRouter.define({
   collection: Client.collection(),

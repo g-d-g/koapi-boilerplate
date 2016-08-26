@@ -1,18 +1,17 @@
-import { Model } from 'koapi';
+import extend from 'koapi/lib/model';
 import Joi from 'joi';
 
-export const fields = Object.assign({
-  code: Joi.string(),
-  client_id: Joi.string(),
-  user_id: Joi.string(),
-  redirect_uri: Joi.string(),
-  scope: Joi.string(),
-  expires_at: Joi.date(),
-}, timestamps());
-
-export default Model.extend({
+export default extend({
   tableName: 'oauth_authorization_codes',
   idAttribute: 'code',
   hasTimestamps: true,
-  validate: fields,
+}, {
+  fields: {
+    code: Joi.string(),
+    client_id: Joi.string(),
+    user_id: Joi.string(),
+    redirect_uri: Joi.string(),
+    scope: Joi.string(),
+    expires_at: Joi.date(),
+  }
 });

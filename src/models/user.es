@@ -1,19 +1,12 @@
-import { Model } from 'koapi';
+import extend from 'koapi/lib/model';
 import Joi from 'joi';
 import Role from './role'
 import Account from './user_account'
 import md5 from 'blueimp-md5'
 
-export const fields = {
-  username: Joi.string().required(),
-  password: Joi.string().required(),
-  email: Joi.string().email().required(),
-};
-
-export default Model.extend({
+export default extend({
   tableName: 'users',
   hasTimestamps: true,
-  validate: fields,
   roles(){
     return this.belongsToMany(Role, 'user2role');
   },
@@ -21,6 +14,11 @@ export default Model.extend({
     return this.hasMany(Account);
   }
 }, {
+  fields: {
+    username: Joi.string().required(),
+    password: Joi.string().required(),
+    email: Joi.string().email().required(),
+  },
   async auth(ident, password){
     let user = await this.query(q => q.where({username:ident}).orWhere({email:ident}))
                .fetch({require:true});

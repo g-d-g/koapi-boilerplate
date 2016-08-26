@@ -1,6 +1,6 @@
 import {ResourceRouter, Router} from 'koapi';
 import Post from '../models/post';
-import Comment, {fields} from '../models/comment';
+import Comment from '../models/comment';
 import index from './default'
 import auth from './auth'
 import clients from './oauth/clients'
@@ -12,7 +12,7 @@ const posts = ResourceRouter.define(Post.collection());
 const comments =  ResourceRouter.define({
   collection: ctx => ctx.state.post.comments(),
   name: 'comments',
-  fields,
+  fields: Comment.fields,
   setup(router){
     router.use(async (ctx, next)=>{
       ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});

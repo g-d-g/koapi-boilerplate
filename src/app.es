@@ -1,4 +1,4 @@
-import Koapi, {Model} from 'koapi'
+import Koapi, { Model } from 'koapi'
 import config from '../config'
 import _ from 'lodash'
 import path from 'path'
@@ -26,7 +26,7 @@ logger.add(winston.transports.File, {
 
 
 // init knex and bookshelf
-Model.init(config.database);
+Model.initialize(config.database);
 
 const app  = new Koapi();
 
