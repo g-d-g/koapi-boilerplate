@@ -12,7 +12,6 @@ const posts = ResourceRouter.define(Post.collection());
 const comments =  ResourceRouter.define({
   collection: ctx => ctx.state.post.comments(),
   model: Comment,
-  name: 'comments',
   setup(router){
     router.use(async (ctx, next)=>{
       ctx.state.post = await Post.where({id:ctx.params.post_id}).fetch({required:true});
