@@ -69,7 +69,7 @@
     "koa-compose": "^3.1.0",
     "koa-oauth2orize": "^0.1.3",
     "koa-passport": "^2.2.1",
-    "koapi": "^0.2.67",
+    "koapi": "^0.2.69",
     "lodash": "^4.12.0",
     "moment": "^2.13.0",
     "mysql": "^2.10.2",

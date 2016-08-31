@@ -27,9 +27,10 @@ function error(e) {
 program.command('build [object]')
        .description('Build code/doc (default code)')
        .action(function (object, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
          switch (object) {
            case 'docs':
-             shelljs.exec('npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\"')
+             shelljs.exec(`npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\" ${args}`)
              break;
            case 'schemas':
              var routers = require('./src/routers');
@@ -53,7 +54,7 @@ program.command('build [object]')
              });
              break;
            default:
-             shelljs.exec('babel -d build/ src/')
+             shelljs.exec(`babel -d build/ src/ ${args}`)
          }
          done();
        });
@@ -62,16 +63,17 @@ program.command('test [type]')
        .description('run tests')
        .option('-e, --env [type]', 'env for tests')
        .action(function (type, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
          var env = options.env || 'test';
          switch (type) {
            case 'coverage':
              shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && nyc ava`);
              break;
            case 'report':
-             shelljs.exec('nyc report --reporter=lcov');
+             shelljs.exec(`nyc report --reporter=lcov ${args}`);
              break;
            default:
-             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ava`);
+             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ava ${args}`);
          }
          done();
        });
@@ -79,18 +81,19 @@ program.command('test [type]')
 program.command('migrate [action]')
        .description('db migration')
        .action(function (action, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
          switch (action) {
            case 'setup':
-             shelljs.exec('knex migrate:latest && knex seed:run');
+             shelljs.exec(`knex migrate:latest && knex seed:run ${args}`);
              break;
            case 'rollback':
-             shelljs.exec('knex migrate:rollback');
+             shelljs.exec(`knex migrate:rollback ${args}`);
              break;
            case 'reset':
-             shelljs.exec('knex migrate:rollback && knex migrate:latest && knex seed:run');
+             shelljs.exec(`knex migrate:rollback && knex migrate:latest && knex seed:run ${args}`);
              break;
            default:
-             shelljs.exec('knex migrate:latest');
+             shelljs.exec(`knex migrate:latest ${args}`);
          }
          done();
        });
