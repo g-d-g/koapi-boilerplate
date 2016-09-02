@@ -62,18 +62,17 @@ program.command('build [object]')
 program.command('test [type]')
        .description('run tests')
        .option('-e, --env [type]', 'env for tests')
+       .option('-c, --coverage', 'coverage')
        .action(function (type, options) {
          var args = _.slice(options.parent.args, 0, -1).join(' ');
          var env = options.env || 'test';
+         var coverage = options.coverage ? 'nyc' : '';
          switch (type) {
-           case 'coverage':
-             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && nyc ava`);
-             break;
            case 'report':
              shelljs.exec(`nyc report --reporter=lcov ${args}`);
              break;
            default:
-             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ava ${args}`);
+             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ${coverage} ava ${args}`);
          }
          done();
        });
