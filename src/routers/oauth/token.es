@@ -8,16 +8,13 @@ import _ from 'lodash'
 export default Router.define(router => {
 
   router.get('/oauth/token', authenticate('bearer'), async (ctx) => {
-    ctx.body = {
-      success: true,
-      data: ctx.state.user
-    };
+    ctx.body = ctx.state.user;
   });
 
   router.del('/oauth/token', authenticate('bearer'), async (ctx) => {
     let {access_token} = ctx.passport.authInfo;
     await Token.where({access_token}).destroy();
-    ctx.body = { success: true };
+    ctx.status = 204;
   });
 
   router.post('/oauth/token',

@@ -1,13 +1,13 @@
 module.exports = {
-  port: null,
+  port: 0,
   debug: false,
   database : {
     client: 'pg',
     connection: {
-      host     : 'ubuntu',
+      host     : 'localhost',
       user     : 'postgres',
-      password : '1234',
-      database : 'boileplate_test',
+      password : '123456',
+      database : 'koapi_boilerplate_test',
       charset  : 'utf8'
     },
   },

@@ -2,7 +2,7 @@ import app from '../src/app'
 import log from 'koapi/lib/logger'
 import nock from 'nock'
 
-export const server = app.listen(null);
+export const server = app.listen(0);
 
 nock('https://github.com').post('/login/oauth/access_token', {
   grant_type:'authorization_code',

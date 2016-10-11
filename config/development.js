@@ -1,12 +1,12 @@
 module.exports = {
-  port: 5000,
+  port: undefined,
   database : {
     client: 'pg',
     connection: {
-      host     : 'ubuntu',
+      host     : 'localhost',
       user     : 'postgres',
-      password : '1234',
-      database : 'koapi',
+      password : '123456',
+      database : 'koapi_boilerplate',
       charset  : 'utf8'
     },
   },
